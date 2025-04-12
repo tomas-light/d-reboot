@@ -3,9 +3,32 @@
   color: red;
 }
 
-.my-team-avatar {
-  width: 56px;
-  height: 56px;
-  display: none;
-  border-radius: 100%;
+.avatar {
+  $size: 64px;
+
+  width: $size;
+  display: inline-block;
+
+  img {
+    width: $size;
+    height: $size;
+    display: inline-block;
+    border: 4px solid white;
+    border-radius: 100%;
+  }
+
+  &:not(:first-of-type) {
+    margin-left: -$size / 3;
+  }
+}
+
+.logo-mini-card {
+  $size: 72px;
+
+  width: $size;
+  height: $size;
+  display: inline-block;
+  overflow: clip;
+  border: 2px solid white;
+  border-radius: 16px;
 }

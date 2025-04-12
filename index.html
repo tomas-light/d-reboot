@@ -12,184 +12,161 @@
   <body
     class="m-auto flex flex-col gap-y-16 text-[40px] leading-[1.5em] lg:max-w-[856px]"
   >
+    <div class="mt-[100px]"></div>
+
     <div class="relative flex justify-center">
       <div
         class="relative max-w-[508px] flex-[1_1_100%] overflow-hidden pb-[60vh] opacity-100 delay-500 duration-500 lg:max-w-[856px]"
       >
-        <h2 class="absolute top-10 lg:top-20">типа лого</h2>
+        <h2 class="absolute top-10 lg:top-20">
+          <img src="/images/avatars/dima.svg" />
+        </h2>
 
         <div
           id="container-to-text"
           class="flex flex-col gap-y-16 text-[40px] leading-[1.5em]"
         >
-          <p class="mt-[300px]">
-            We build world-class marketing sites for software startups.<span
-              class="images"
-              >[TBD]</span
-            >
-          </p>
-          <p>
-            We are a tight-knit team <span id="team"></span> with 8+ years of
-            experience helping founders showcase how good their products really
-            are.
-          </p>
+          <div class="mt-[300px] text-gray-950">
+            <span data-animated-characters>
+              I'm build world-class technology systems for software company.
+            </span>
+
+            <span data-animated-logo-cards>
+              <img class="logo-mini-card" src="/images/logos/ya.png" alt="ya" />
+              <img class="logo-mini-card" src="/images/logos/ff.png" alt="ff" />
+              <img class="logo-mini-card" src="/images/logos/pt.png" alt="pt" />
+              <img
+                class="logo-mini-card"
+                src="/images/logos/gpb.png"
+                alt="pt"
+              />
+              <img
+                class="logo-mini-card"
+                src="/images/logos/solar.png"
+                alt="pt"
+              />
+            </span>
+
+            <span data-animated-characters> We are a tight-knit team </span>
+
+            <span data-animated-avatars-container>
+              <span data-animated-avatars class="avatar">
+                <img src="/images/logos/ya.png" alt="ya" />
+              </span>
+
+              <span data-animated-avatars class="avatar">
+                <img src="/images/logos/ff.png" alt="ff" />
+              </span>
+
+              <span data-animated-avatars class="avatar">
+                <img src="/images/logos/pt.png" alt="pt" />
+              </span>
+            </span>
+
+            <span data-animated-characters>
+              with 12 years of experience helping founders showcase how good
+              their products really are.
+            </span>
+          </div>
+
+          <div class="text-gray-950">
+            <span data-animated-characters>
+              Pulling everything together comes at the expense of your product.
+              Your team should never stop shipping. That's where we step in.
+            </span>
+          </div>
+
+          <div class="text-gray-950">
+            <span data-animated-characters>
+              We design and build the perfect site for your product. We move
+              fast, while ensuring the highest level of craft, attention to
+              detail and performance.
+            </span>
+          </div>
+
+          <div class="text-gray-950">
+            <span data-animated-characters>
+              Projects start at $3,000/wk and they run for at least 8 weeks.
+            </span>
+          </div>
+
+          <div class="text-gray-950">
+            <span data-animated-characters>
+              Your product deserves a better site. Book a call
+            </span>
+          </div>
         </div>
       </div>
     </div>
 
-    <template id="text-with-header">
-      <h3 class="py-4 font-bold text-gray-950"></h3>
-      <p class="text-gray-950"></p>
-    </template>
-
-    <template id="animated-text">
-      <p class="text-gray-950"></p>
-    </template>
-
-    <template id="animated-avatar">
-      <img class="my-team-avatar" src="" alt="" />
-    </template>
-
     <script type="module">
-      import { gsap } from 'gsap';
-      import SplitType from 'split-type';
-      import { loremIpsum } from './src/lorem-ipsum.js';
       import { initSmoothScroll } from './src/scroll.js';
 
       initSmoothScroll();
 
-      const teamContainer = document.getElementById('team');
-      addAnimatedAvatar({
-        container: teamContainer,
-        src: '/images/avatars/man-1.png',
-      });
-      addAnimatedAvatar({
-        container: teamContainer,
-        src: '/images/avatars/man-2.png',
-      });
-      addAnimatedAvatar({
-        container: teamContainer,
-        src: '/images/avatars/man-3.png',
-      });
+      import { gsap } from 'gsap';
+      import SplitType from 'split-type';
 
-      const textContainer = document.getElementById('container-to-text');
+      /** @typedef ScrollTriggerConfig
+       * @property {ScrollTrigger.Vars} scrollTrigger
+       * */
 
-      addAnimatedText({
-        container: textContainer,
-        text: 'We are a tight-knit team with 8+ years of experience helping founders showcase how good their products really are.',
-      });
-      addAnimatedText({
-        container: textContainer,
-        text: 'Building great sites involves many disciplines. Design. Engineering. Interaction.',
-      });
-      addAnimatedText({
-        container: textContainer,
-        text: `Pulling everything together comes at the expense of your product. Your team should never stop shipping. That's where we step in.`,
-      });
-      addAnimatedText({
-        container: textContainer,
-        text: 'We design and build the perfect site for your product. We move fast, while ensuring the highest level of craft, attention to detail and performance.',
-      });
-      addAnimatedText({
-        container: textContainer,
-        text: 'Projects start at $3,000/wk and they run for at least 8 weeks.',
-      });
-      addAnimatedText({
-        container: textContainer,
-        text: 'Your product deserves a better site. Book a call',
-      });
-
-      addLoremIpsumTo(textContainer);
-      addLoremIpsumTo(textContainer);
-
-      function addLoremIpsumTo(container) {
-        loremIpsum.forEach(({ header, text }) => {
-          addTextWithHeader({
-            container: container,
-            header: header,
-            text: text,
-          });
-        });
+      /**
+       * @param {HTMLElement | string} trigger
+       * @param {ScrollTrigger.Vars} options
+       * @returns ScrollTriggerConfig
+       * */
+      function scrollTrigger(trigger, options) {
+        return {
+          scrollTrigger: {
+            scrub: true, // привязка к позиции скрола, а не ко времени
+            trigger: trigger,
+            ...options,
+          },
+        };
       }
 
-      function addTextWithHeader(options) {
-        const { header, text, container } = options;
-
-        /** @type HTMLTemplateElement */
-        const template = document.querySelector('#text-with-header');
-
-        /** @type HTMLElement */
-        const templateContent = template.content.cloneNode(true);
-
-        const headerElement = templateContent.querySelector('h3');
-        headerElement.textContent = header;
-
-        const textElement = templateContent.querySelector('p');
-        textElement.textContent = text;
-
-        container.append(templateContent);
-
-        addAnimationToTextElement(headerElement);
-        addAnimationToTextElement(textElement);
-      }
-
-      function addAnimatedText(options) {
-        const { text, container } = options;
-
-        /** @type HTMLTemplateElement */
-        const template = document.querySelector('#animated-text');
-
-        /** @type HTMLElement */
-        const templateContent = template.content.cloneNode(true);
-
-        const textElement = templateContent.querySelector('p');
-        textElement.textContent = text;
-
-        container.append(templateContent);
-
-        addAnimationToTextElement(textElement);
-      }
-
-      function addAnimationToTextElement(textElement) {
-        const split = new SplitType(textElement, { types: 'chars' });
+      const animatedCharacters = document.querySelectorAll(
+        '[data-animated-characters]'
+      );
+      animatedCharacters.forEach((spanElement) => {
+        const split = new SplitType(spanElement, { types: 'chars' });
 
         gsap.from(split.chars, {
           opacity: 0.2, // gsap.from, поэтому начиная с этой прозрачности и до 1
           stagger: 0.1, // задержка между элементами - каждый следующий через 0.1 секунды
           color: 'var(--color-gray-950)',
-          scrollTrigger: {
-            start: 'top 60%',
-            end: 'top 40%',
-            scrub: true, // привязка к позиции скролла, а не ко времени
-            trigger: split.chars,
-          },
+          ...scrollTrigger(split.chars, {
+            start: 'top 60%', // анимация запускается, когда группа символов достигает x% скрола сверху экрана
+            end: 'top 40%', // анимация завершается, когда группа символов достигает y% скрола сверху экрана
+          }),
         });
-      }
+      });
 
-      function addAnimatedAvatar(options) {
-        const { src, container } = options;
-
-        /** @type HTMLTemplateElement */
-        const template = document.querySelector('#animated-avatar');
-
-        /** @type HTMLElement */
-        const templateContent = template.content.cloneNode(true);
-
-        const avatar = templateContent.querySelector('img');
-        avatar.src = src;
-
-        container.append(templateContent);
-
-        gsap.to(avatar, {
-          display: 'inline-block',
-          scrollTrigger: {
-            trigger: avatar,
-            start: 'top 80%',
-            end: 'top 20%',
-            scrub: true, // привязка к позиции скролла, а не ко времени
-          },
+      const animatedAvatarContainers = document.querySelectorAll(
+        '[data-animated-avatars-container]'
+      );
+      animatedAvatarContainers.forEach((avatarElement) => {
+        gsap.from(avatarElement, {
+          width: 0,
+          display: 'inline-flex',
+          ...scrollTrigger(avatarElement, {
+            start: 'top 60%', // анимация запускается, когда группа символов достигает x% скрола сверху экрана
+            end: 'top 60%', // анимация завершается, когда группа символов достигает y% скрола сверху экрана
+          }),
         });
-      }
+      });
+
+      gsap.from('[data-animated-avatars-container] [data-animated-avatars]', {
+        scale: 0,
+        duration: 1,
+        transformOrigin: '0px 50%',
+        stagger: 1, // задержка между элементами - каждый следующий через 1 секунды
+        ...scrollTrigger('[data-animated-avatars-container]', {
+          start: 'top 60%', // анимация запускается, когда группа символов достигает x% скрола сверху экрана
+          end: 'top 55%', // анимация завершается, когда группа символов достигает y% скрола сверху экрана
+        }),
+      });
     </script>
   </body>
 </html>
