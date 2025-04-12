@@ -12,8 +12,6 @@
   <body
     class="m-auto flex flex-col gap-y-16 text-[40px] leading-[1.5em] lg:max-w-[856px]"
   >
-    <div class="mt-[100px]"></div>
-
     <div class="relative flex justify-center">
       <div
         class="relative max-w-[508px] flex-[1_1_100%] overflow-hidden pb-[60vh] opacity-100 delay-500 duration-500 lg:max-w-[856px]"
@@ -26,28 +24,36 @@
           id="container-to-text"
           class="flex flex-col gap-y-16 text-[40px] leading-[1.5em]"
         >
-          <div class="mt-[300px] text-gray-950">
-            <span data-animated-characters>
+          <div class="mt-[320px] text-gray-950">
+            <span>
               I'm build world-class technology systems for software company.
             </span>
 
             <span data-animated-logo-cards>
-              <img class="logo-mini-card" src="/images/logos/ya.png" alt="ya" />
-              <img class="logo-mini-card" src="/images/logos/ff.png" alt="ff" />
+              <img
+                class="logo-mini-card current"
+                src="/images/logos/ya.png"
+                alt="ya"
+              />
+              <img
+                class="logo-mini-card next"
+                src="/images/logos/ff.png"
+                alt="ff"
+              />
               <img class="logo-mini-card" src="/images/logos/pt.png" alt="pt" />
               <img
                 class="logo-mini-card"
                 src="/images/logos/gpb.png"
-                alt="pt"
+                alt="gpb"
               />
               <img
                 class="logo-mini-card"
                 src="/images/logos/solar.png"
-                alt="pt"
+                alt="solar"
               />
             </span>
 
-            <span data-animated-characters> We are a tight-knit team </span>
+            <span data-animated-characters>We are a tight-knit team</span>
 
             <span data-animated-avatars-container>
               <span data-animated-avatars class="avatar">
@@ -112,13 +118,14 @@
        * */
 
       /**
-       * @param {HTMLElement | string} trigger
+       * @param {HTMLElement | HTMLElement[]  | string} trigger
        * @param {ScrollTrigger.Vars} options
        * @returns ScrollTriggerConfig
        * */
       function scrollTrigger(trigger, options) {
         return {
           scrollTrigger: {
+            start: 'top 40%', // анимация запускается, когда группа символов достигает x% скрола сверху экрана
             scrub: true, // привязка к позиции скрола, а не ко времени
             trigger: trigger,
             ...options,
@@ -137,8 +144,7 @@
           stagger: 0.1, // задержка между элементами - каждый следующий через 0.1 секунды
           color: 'var(--color-gray-950)',
           ...scrollTrigger(split.chars, {
-            start: 'top 60%', // анимация запускается, когда группа символов достигает x% скрола сверху экрана
-            end: 'top 40%', // анимация завершается, когда группа символов достигает y% скрола сверху экрана
+            end: 'top 20%', // анимация завершается, когда группа символов достигает y% скрола сверху экрана
           }),
         });
       });
@@ -151,8 +157,7 @@
           width: 0,
           display: 'inline-flex',
           ...scrollTrigger(avatarElement, {
-            start: 'top 60%', // анимация запускается, когда группа символов достигает x% скрола сверху экрана
-            end: 'top 60%', // анимация завершается, когда группа символов достигает y% скрола сверху экрана
+            end: 'top 40%', // анимация завершается, когда группа символов достигает y% скрола сверху экрана
           }),
         });
       });
@@ -161,11 +166,63 @@
         scale: 0,
         duration: 1,
         transformOrigin: '0px 50%',
-        stagger: 1, // задержка между элементами - каждый следующий через 1 секунды
+        stagger: 1, // задержка между элементами - каждый следующий через 1 секунду
         ...scrollTrigger('[data-animated-avatars-container]', {
-          start: 'top 60%', // анимация запускается, когда группа символов достигает x% скрола сверху экрана
-          end: 'top 55%', // анимация завершается, когда группа символов достигает y% скрола сверху экрана
+          end: 'top 35%', // анимация завершается, когда группа символов достигает y% скрола сверху экрана
         }),
+      });
+
+      const logoCardsContainers = document.querySelectorAll(
+        '[data-animated-logo-cards]'
+      );
+      logoCardsContainers.forEach((container) => {
+        function findNextCard() {
+          const cards = container.querySelectorAll(
+            '.logo-mini-card:not(.current)'
+          );
+          return cards[0];
+        }
+        function findCurrentCard() {
+          return container.querySelector('.logo-mini-card.current');
+        }
+
+        container.addEventListener('mouseenter', () => {
+          const nextCard = findNextCard();
+          if (nextCard != null) {
+            nextCard.classList.add('elevated');
+          }
+        });
+        container.addEventListener('mouseleave', () => {
+          const nextCard = findNextCard();
+          if (nextCard != null) {
+            nextCard.classList.remove('elevated');
+          }
+        });
+        container.addEventListener('click', async () => {
+          const currentCard = findCurrentCard();
+          const nextCard = findNextCard();
+          if (currentCard == null && nextCard == null) {
+            return;
+          }
+
+          if (!nextCard.classList.contains('elevated')) {
+            nextCard.classList.add('elevated');
+            await new Promise((resolve) => {
+              setTimeout(resolve, 300);
+            });
+          }
+
+          container.removeChild(currentCard);
+          currentCard.classList.remove('current');
+          container.appendChild(currentCard);
+
+          nextCard.classList.remove('elevated');
+          nextCard.classList.remove('next');
+          nextCard.classList.add('current');
+
+          const furtherNextCard = findNextCard();
+          furtherNextCard.classList.add('next');
+        });
       });
     </script>
   </body>

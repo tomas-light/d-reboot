@@ -1,7 +1,4 @@
-.avatars,
-.images {
-  color: red;
-}
+@use 'sass:math';
 
 .avatar {
   $size: 64px;
@@ -18,17 +15,47 @@
   }
 
   &:not(:first-of-type) {
-    margin-left: -$size / 3;
+    margin-left: math.div(-$size, 3);
   }
 }
 
-.logo-mini-card {
+[data-animated-logo-cards] {
   $size: 72px;
+  $nextZIndex: 1;
+  $currentZIndex: $nextZIndex + 1;
 
+  position: relative;
   width: $size;
   height: $size;
   display: inline-block;
-  overflow: clip;
-  border: 2px solid white;
-  border-radius: 16px;
+  cursor: pointer;
+  transform: translateY(1.55rem);
+
+  .logo-mini-card {
+    position: absolute;
+    width: $size;
+    height: $size;
+    display: inline-block;
+    overflow: clip;
+    border-radius: 16px;
+    transition: transform 300ms;
+
+    &.current {
+      z-index: $currentZIndex;
+      transform: translateY(5%) rotate(5deg);
+    }
+
+    &:not(.current, .next) {
+      transform: translateY(-5%);
+    }
+
+    &.next {
+      z-index: $nextZIndex;
+      transform: rotate(-5deg);
+
+      &.elevated {
+        transform: translateY(-50%);
+      }
+    }
+  }
 }
