@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Petrov Dima</title>
+
+    <link href="/src/tailwind-root.css" rel="stylesheet" />
+    <link href="/src/my.scss" rel="stylesheet" />
+  </head>
+
+  <body
+    class="m-auto flex flex-col gap-y-16 text-[40px] leading-[1.5em] lg:max-w-[856px]"
+  >
+    <div class="relative flex justify-center">
+      <div
+        class="relative max-w-[508px] flex-[1_1_100%] overflow-hidden pb-[60vh] opacity-100 delay-500 duration-500 lg:max-w-[856px]"
+      >
+        <h2 class="absolute top-10 lg:top-20">типа лого</h2>
+
+        <div
+          id="container-to-text"
+          class="flex flex-col gap-y-16 text-[40px] leading-[1.5em]"
+        >
+          <p class="mt-[300px]">
+            We build world-class marketing sites for software startups.<span
+              class="images"
+              >[TBD]</span
+            >
+          </p>
+          <p>
+            We are a tight-knit team <span id="team"></span> with 8+ years of
+            experience helping founders showcase how good their products really
+            are.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <template id="text-with-header">
+      <h3 class="py-4 font-bold text-gray-950"></h3>
+      <p class="text-gray-950"></p>
+    </template>
+
+    <template id="animated-text">
+      <p class="text-gray-950"></p>
+    </template>
+
+    <template id="animated-avatar">
+      <img class="my-team-avatar" src="" alt="" />
+    </template>
+
+    <script type="module">
+      import { gsap } from 'gsap';
+      import SplitType from 'split-type';
+      import { loremIpsum } from './src/lorem-ipsum.js';
+      import { initSmoothScroll } from './src/scroll.js';
+
+      initSmoothScroll();
+
+      const teamContainer = document.getElementById('team');
+      addAnimatedAvatar({
+        container: teamContainer,
+        src: '/images/avatars/man-1.png',
+      });
+      addAnimatedAvatar({
+        container: teamContainer,
+        src: '/images/avatars/man-2.png',
+      });
+      addAnimatedAvatar({
+        container: teamContainer,
+        src: '/images/avatars/man-3.png',
+      });
+
+      const textContainer = document.getElementById('container-to-text');
+
+      addAnimatedText({
+        container: textContainer,
+        text: 'We are a tight-knit team with 8+ years of experience helping founders showcase how good their products really are.',
+      });
+      addAnimatedText({
+        container: textContainer,
+        text: 'Building great sites involves many disciplines. Design. Engineering. Interaction.',
+      });
+      addAnimatedText({
+        container: textContainer,
+        text: `Pulling everything together comes at the expense of your product. Your team should never stop shipping. That's where we step in.`,
+      });
+      addAnimatedText({
+        container: textContainer,
+        text: 'We design and build the perfect site for your product. We move fast, while ensuring the highest level of craft, attention to detail and performance.',
+      });
+      addAnimatedText({
+        container: textContainer,
+        text: 'Projects start at $3,000/wk and they run for at least 8 weeks.',
+      });
+      addAnimatedText({
+        container: textContainer,
+        text: 'Your product deserves a better site. Book a call',
+      });
+
+      addLoremIpsumTo(textContainer);
+      addLoremIpsumTo(textContainer);
+
+      function addLoremIpsumTo(container) {
+        loremIpsum.forEach(({ header, text }) => {
+          addTextWithHeader({
+            container: container,
+            header: header,
+            text: text,
+          });
+        });
+      }
+
+      function addTextWithHeader(options) {
+        const { header, text, container } = options;
+
+        /** @type HTMLTemplateElement */
+        const template = document.querySelector('#text-with-header');
+
+        /** @type HTMLElement */
+        const templateContent = template.content.cloneNode(true);
+
+        const headerElement = templateContent.querySelector('h3');
+        headerElement.textContent = header;
+
+        const textElement = templateContent.querySelector('p');
+        textElement.textContent = text;
+
+        container.append(templateContent);
+
+        addAnimationToTextElement(headerElement);
+        addAnimationToTextElement(textElement);
+      }
+
+      function addAnimatedText(options) {
+        const { text, container } = options;
+
+        /** @type HTMLTemplateElement */
+        const template = document.querySelector('#animated-text');
+
+        /** @type HTMLElement */
+        const templateContent = template.content.cloneNode(true);
+
+        const textElement = templateContent.querySelector('p');
+        textElement.textContent = text;
+
+        container.append(templateContent);
+
+        addAnimationToTextElement(textElement);
+      }
+
+      function addAnimationToTextElement(textElement) {
+        const split = new SplitType(textElement, { types: 'chars' });
+
+        gsap.from(split.chars, {
+          opacity: 0.2, // gsap.from, поэтому начиная с этой прозрачности и до 1
+          stagger: 0.1, // задержка между элементами - каждый следующий через 0.1 секунды
+          color: 'var(--color-gray-950)',
+          scrollTrigger: {
+            start: 'top 80%',
+            end: 'top 20%',
+            scrub: true, // привязка к позиции скролла, а не ко времени
+            trigger: split.chars,
+          },
+        });
+      }
+
+      function addAnimatedAvatar(options) {
+        const { src, container } = options;
+
+        /** @type HTMLTemplateElement */
+        const template = document.querySelector('#animated-avatar');
+
+        /** @type HTMLElement */
+        const templateContent = template.content.cloneNode(true);
+
+        const avatar = templateContent.querySelector('img');
+        avatar.src = src;
+
+        container.append(templateContent);
+
+        gsap.to(avatar, {
+          display: 'inline-block',
+          scrollTrigger: {
+            trigger: avatar,
+            start: 'top 80%',
+            end: 'top 20%',
+            scrub: true, // привязка к позиции скролла, а не ко времени
+          },
+        });
+      }
+    </script>
+  </body>
+</html>
