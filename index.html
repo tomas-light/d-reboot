@@ -155,27 +155,48 @@
       // выставляем svg Динамически, а не отдельной ссылкой, потому что
       // vite-plugin-singlefile не может её встроить через обычный
       // <link rel="icon" type="image/png" href="/images/avatars/dima.svg" />
+      import { insertFavicon } from './src/insertFavicon.js';
       const dimaSvg = document.getElementById('dima.svg');
       if (dimaSvg) {
-        const encodedSVG = dimaSvg.outerHTML
-          .replace(/\"/g, '%22')
-          .replace(/\#/g, '%23');
-
-        const link = document.createElement('link');
-        link.rel = 'icon';
-        document.head.appendChild(link);
-        link.href = `data:image/svg+xml,${encodedSVG}`;
+        insertFavicon(dimaSvg);
       }
     </script>
 
     <script type="module">
+      // делаем скрол плавным
       import { initSmoothScroll } from './src/scroll.js';
       initSmoothScroll();
     </script>
 
     <script type="module">
+      // анимация появления слов
+      import { animateWordsAppearing } from './src/animateWordsAppearing.js';
+      animateWordsAppearing('[data-animated-characters]');
+    </script>
+
+    <script type="module">
+      // анимация перелистывания карточек
+      import { animateCardsFlipping } from './src/animateCardsFlipping.js';
+      animateCardsFlipping({
+        cardsContainersSelector: '[data-animated-logo-cards]',
+        findNextCard: (container) => {
+          const cards = container.querySelectorAll(
+            '.logo-mini-card:not(.current)'
+          );
+          return cards[0];
+        },
+        findCurrentCard: (container) => {
+          return container.querySelector('.logo-mini-card.current');
+        },
+        elevatedClassName: 'elevated',
+        currentClassName: 'current',
+        nextClassName: 'next',
+      });
+    </script>
+
+    <script type="module">
+      // анимация появления аватарок компаний
       import { gsap } from 'gsap';
-      import SplitType from 'split-type';
 
       /** @typedef ScrollTriggerConfig
        * @property {ScrollTrigger.Vars} scrollTrigger
@@ -197,27 +218,6 @@
         };
       }
 
-      const animatedCharacters = gsap.utils.toArray(
-        '[data-animated-characters]'
-      );
-
-      const splattedTypes = animatedCharacters.map(
-        (spanElement) => new SplitType(spanElement, { types: 'words' })
-      );
-      /** @type {HTMLElement[]} */
-      const splattedWords = splattedTypes.flatMap((type) => type.words);
-
-      gsap.from(splattedWords, {
-        opacity: 0.2, // gsap.from, поэтому начиная с этой прозрачности и до 1
-        stagger: 0.1, // задержка между элементами - каждый следующий через 0.1 секунды
-        color: 'var(--color-gray-950)',
-        ...scrollTrigger(splattedWords, {
-          end: 'bottom 40%', // анимация завершается, когда группа символов достигает y% скрола снизу экрана
-          endTrigger: splattedWords.at(-1),
-          // markers: true,
-        }),
-      });
-
       const animatedAvatarContainers = document.querySelectorAll(
         '[data-animated-avatars-container]'
       );
@@ -227,6 +227,7 @@
           display: 'inline-flex',
           ...scrollTrigger(avatarElement, {
             end: 'top 40%', // анимация завершается, когда группа символов достигает y% скрола сверху экрана
+            // markers: true,
           }),
         });
       });
@@ -238,60 +239,8 @@
         stagger: 1, // задержка между элементами - каждый следующий через 1 секунду
         ...scrollTrigger('[data-animated-avatars-container]', {
           end: 'top 35%', // анимация завершается, когда группа символов достигает y% скрола сверху экрана
+          // markers: true,
         }),
-      });
-
-      const logoCardsContainers = document.querySelectorAll(
-        '[data-animated-logo-cards]'
-      );
-      logoCardsContainers.forEach((container) => {
-        function findNextCard() {
-          const cards = container.querySelectorAll(
-            '.logo-mini-card:not(.current)'
-          );
-          return cards[0];
-        }
-        function findCurrentCard() {
-          return container.querySelector('.logo-mini-card.current');
-        }
-
-        container.addEventListener('mouseenter', () => {
-          const nextCard = findNextCard();
-          if (nextCard != null) {
-            nextCard.classList.add('elevated');
-          }
-        });
-        container.addEventListener('mouseleave', () => {
-          const nextCard = findNextCard();
-          if (nextCard != null) {
-            nextCard.classList.remove('elevated');
-          }
-        });
-        container.addEventListener('click', async () => {
-          const currentCard = findCurrentCard();
-          const nextCard = findNextCard();
-          if (currentCard == null && nextCard == null) {
-            return;
-          }
-
-          if (!nextCard.classList.contains('elevated')) {
-            nextCard.classList.add('elevated');
-            await new Promise((resolve) => {
-              setTimeout(resolve, 300);
-            });
-          }
-
-          container.removeChild(currentCard);
-          currentCard.classList.remove('current');
-          container.appendChild(currentCard);
-
-          nextCard.classList.remove('elevated');
-          nextCard.classList.remove('next');
-          nextCard.classList.add('current');
-
-          const furtherNextCard = findNextCard();
-          furtherNextCard.classList.add('next');
-        });
       });
     </script>
   </body>
