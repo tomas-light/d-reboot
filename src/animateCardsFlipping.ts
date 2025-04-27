@@ -1,75 +1,67 @@
 type Options = {
-  cardsContainersSelector: string;
-} & Omit<AnimateCardsContainerOptions, 'container'>;
-
-export function animateCardsFlipping(options: Options) {
-  const { cardsContainersSelector, ...restOptions } = options;
-
-  const cardsContainers = document.querySelectorAll(cardsContainersSelector);
-  cardsContainers.forEach((container) => {
-    animateCardsContainer({ container, ...restOptions });
-  });
-}
-
-type AnimateCardsContainerOptions = {
-  container: Element;
-  findNextCard: (container: Element) => Element | undefined;
-  findCurrentCard: (container: Element) => Element | undefined;
-
-  elevatedClassName: string;
-  currentClassName: string;
-  nextClassName: string;
+  cardContainer: HTMLElement;
+  container: HTMLElement;
+  selectCard: (selector: string) => NodeListOf<HTMLElement>;
 };
 
-function animateCardsContainer(options: AnimateCardsContainerOptions) {
-  const {
-    container,
-    findCurrentCard,
-    findNextCard,
-    elevatedClassName,
-    currentClassName,
-    nextClassName,
-  } = options;
+export function animateCardsFlipping(options: Options) {
+  const { cardContainer, selectCard } = options;
 
-  container.addEventListener('mouseenter', () => {
-    const nextCard = findNextCard(container);
-    if (nextCard != null) {
-      nextCard.classList.add(elevatedClassName);
-    }
+  cardContainer.addEventListener('mouseenter', () => {
+    const nextCard = findNextCard();
+    elevateCard(nextCard);
   });
 
-  container.addEventListener('mouseleave', () => {
-    const nextCard = findNextCard(container);
-    if (nextCard != null) {
-      nextCard.classList.remove(elevatedClassName);
-    }
+  cardContainer.addEventListener('mouseleave', () => {
+    const nextCard = findNextCard();
+    lowerCard(nextCard);
   });
 
-  container.addEventListener('click', async () => {
-    const currentCard = findCurrentCard(container);
-    const nextCard = findNextCard(container);
+  cardContainer.addEventListener('click', async () => {
+    const currentCard = findCurrentCard();
+    const nextCard = findNextCard();
     if (currentCard == null || nextCard == null) {
       return;
     }
 
-    if (!nextCard.classList.contains(elevatedClassName)) {
-      nextCard.classList.add(elevatedClassName);
+    if (nextCard.dataset.elevated == null) {
+      elevateCard(nextCard);
+
       await new Promise((resolve) => {
         setTimeout(resolve, 300);
       });
     }
 
-    container.removeChild(currentCard);
-    currentCard.classList.remove(currentClassName);
-    container.appendChild(currentCard);
+    moveCurrentCardBehind(currentCard);
 
-    nextCard.classList.remove(elevatedClassName);
-    nextCard.classList.remove(nextClassName);
-    nextCard.classList.add(currentClassName);
+    lowerCard(nextCard);
+    nextCard.removeAttribute('data-next');
+    nextCard.setAttribute('data-current', '');
 
-    const furtherNextCard = findNextCard(container);
-    if (furtherNextCard != null) {
-      furtherNextCard.classList.add(nextClassName);
-    }
+    const furtherNextCard = findNextCard();
+    furtherNextCard?.setAttribute('data-next', '');
   });
+
+  function findNextCard() {
+    const notCurrentCards = selectCard(':not([data-current])');
+    return notCurrentCards[0];
+  }
+
+  function findCurrentCard() {
+    const currentCards = selectCard('[data-current]');
+    return currentCards[0];
+  }
+
+  function elevateCard(card: Element) {
+    card?.setAttribute('data-elevated', '');
+  }
+  function lowerCard(card: Element) {
+    card?.removeAttribute('data-elevated');
+  }
+
+  function moveCurrentCardBehind(card: Element) {
+    cardContainer.removeChild(card);
+    card.removeAttribute('data-current');
+    cardContainer.appendChild(card);
+  }
 }

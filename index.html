@@ -7,6 +7,7 @@
 
     <link href="/src/tailwind-root.css" rel="stylesheet" />
     <link href="/src/my.scss" rel="stylesheet" />
+    <link href="/src/flippingCards.scss" rel="stylesheet" />
   </head>
 
   <body class="m-auto flex flex-col gap-y-16 leading-[1.5em] lg:max-w-[856px]">
@@ -58,26 +59,15 @@
 
             <span data-animated-logo-cards>
               <img
-                class="logo-mini-card current"
+                class="card"
+                data-current
                 src="/images/logos/ya.png"
                 alt="ya"
               />
-              <img
-                class="logo-mini-card next"
-                src="/images/logos/ff.png"
-                alt="ff"
-              />
-              <img class="logo-mini-card" src="/images/logos/pt.png" alt="pt" />
-              <img
-                class="logo-mini-card"
-                src="/images/logos/gpb.png"
-                alt="gpb"
-              />
-              <img
-                class="logo-mini-card"
-                src="/images/logos/solar.png"
-                alt="solar"
-              />
+              <img class="card" data-next src="/images/logos/ff.png" alt="ff" />
+              <img class="card" src="/images/logos/pt.png" alt="pt" />
+              <img class="card" src="/images/logos/gpb.png" alt="gpb" />
+              <img class="card" src="/images/logos/solar.png" alt="solar" />
             </span>
 
             <span data-animated-characters>We are a tight-knit team</span>
@@ -177,21 +167,22 @@
     <script type="module">
       // анимация перелистывания карточек
       import { animateCardsFlipping } from './src/animateCardsFlipping.js';
-      animateCardsFlipping({
-        cardsContainersSelector: '[data-animated-logo-cards]',
-        findNextCard: (container) => {
-          const cards = container.querySelectorAll(
-            '.logo-mini-card:not(.current)'
-          );
-          return cards[0];
-        },
-        findCurrentCard: (container) => {
-          return container.querySelector('.logo-mini-card.current');
-        },
-        elevatedClassName: 'elevated',
-        currentClassName: 'current',
-        nextClassName: 'next',
-      });
+      document
+        .querySelectorAll('[data-animated-logo-cards]')
+        .forEach((cardContainer) => {
+          animateCardsFlipping({
+            cardContainer,
+            selectCard: (selector) => {
+              /**
+               * @example
+               * .card[data-next]
+               * @example
+               * .card:not([data-current])
+               * */
+              return cardContainer.querySelectorAll(`.card${selector}`);
+            },
+          });
+        });
     </script>
 
     <script type="module">
