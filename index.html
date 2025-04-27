@@ -188,6 +188,7 @@
     <script type="module">
       // анимация появления аватарок компаний
       import { gsap } from 'gsap';
+      import { showHideElementOnScroll } from './src/showHideElementOnScroll.js';
 
       /** @typedef ScrollTriggerConfig
        * @property {ScrollTrigger.Vars} scrollTrigger
@@ -213,14 +214,7 @@
         '[data-animated-avatars-container]'
       );
       animatedAvatarContainers.forEach((avatarElement) => {
-        gsap.from(avatarElement, {
-          width: 0,
-          display: 'inline-flex',
-          ...scrollTrigger(avatarElement, {
-            end: 'top 40%', // анимация завершается, когда группа символов достигает y% скрола сверху экрана
-            // markers: true,
-          }),
-        });
+        showHideElementOnScroll(avatarElement);
       });
 
       gsap.from('[data-animated-avatars-container] [data-animated-avatars]', {
