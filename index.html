@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Petrov Dima</title>
 
-    <link rel="icon" type="image/png" href="/images/avatars/dima.svg" />
     <link href="/src/tailwind-root.css" rel="stylesheet" />
     <link href="/src/my.scss" rel="stylesheet" />
   </head>
@@ -16,7 +15,39 @@
         class="relative max-w-[508px] flex-[1_1_100%] overflow-hidden pb-[60vh] opacity-100 delay-500 duration-500 lg:max-w-[856px]"
       >
         <h2 class="absolute top-10 lg:top-20">
-          <img src="/images/avatars/dima.svg" />
+          <svg
+            id="dima.svg"
+            width="80"
+            height="80"
+            viewBox="0 0 80 80"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M40 80C62.0914 80 80 62.0914 80 40C80 17.9086 62.0914 0 40 0C17.9086 0 0 17.9086 0 40C0 62.0914 17.9086 80 40 80Z"
+              fill="#E7E7E7"
+            />
+            <path
+              d="M40 54C49.9411 54 58 45.9411 58 36C58 26.0589 49.9411 18 40 18C30.0589 18 22 26.0589 22 36C22 45.9411 30.0589 54 40 54Z"
+              fill="#FFFFFF"
+            />
+            <path
+              d="M65.2499 65.6689C58.7505 72.0583 49.8357 76 39.9999 76C30.1642 76 21.2493 72.0584 14.75 65.669C17.549 61.6387 22.2113 59 27.49 59H52.51C57.7886 59 62.4509 61.6387 65.2499 65.6689Z"
+              fill="#FFFFFF"
+            />
+            <path
+              d="M38.132 30.5475C38.132 32.2575 36.6195 33.645 34.7545 33.645C33.922 33.645 33.5145 32.6924 32.9245 32.2324C32.1945 31.6649 31.377 31.4925 31.377 30.5475C31.377 29.5075 32.0895 29.3275 32.962 28.7875C33.702 28.33 33.702 27.45 34.757 27.45C36.6195 27.4525 38.132 28.8375 38.132 30.5475Z"
+              fill="#FF0000"
+            />
+            <path
+              d="M50.6978 31.1826C50.6978 32.8926 49.3953 32.9301 47.9178 32.3451C47.1428 32.0376 47.2753 33.2901 45.6653 32.8026C44.5053 32.4501 45.4228 31.3776 44.9603 30.5501C44.2778 29.3276 44.0002 27.6251 45.5228 27.2401C46.5553 27.1426 47.5253 26.8201 48.2678 27.1751C49.8778 27.9376 50.6978 30.0126 50.6978 31.1826Z"
+              fill="#FF0000"
+            />
+            <path
+              d="M32.3851 41.655C30.5326 44.5225 34.1526 44.8875 34.1526 44.8875C34.1526 44.8875 39.4351 46.05 44.3051 44.805C47.8826 43.89 51.0626 40.385 51.0626 40.385C51.0626 40.385 51.8451 39.175 50.9526 38.425C50.0601 37.675 49.1376 38.425 49.1376 38.425C49.1376 38.425 46.9676 41.2525 42.9901 42.225C39.0026 43.2 35.1526 42.13 35.1526 42.13C35.1526 42.13 33.4176 40.405 32.3851 41.655Z"
+              fill="#FF0000"
+            />
+          </svg>
         </h2>
 
         <div class="flex flex-col gap-y-16 text-[40px] leading-[1.5em]">
@@ -121,11 +152,30 @@
     </div>
 
     <script type="module">
+      // выставляем svg Динамически, а не отдельной ссылкой, потому что
+      // vite-plugin-singlefile не может её встроить через обычный
+      // <link rel="icon" type="image/png" href="/images/avatars/dima.svg" />
+      const dimaSvg = document.getElementById('dima.svg');
+      if (dimaSvg) {
+        const encodedSVG = dimaSvg.outerHTML
+          .replace(/\"/g, '%22')
+          .replace(/\#/g, '%23');
+
+        const link = document.createElement('link');
+        link.rel = 'icon';
+        document.head.appendChild(link);
+        link.href = `data:image/svg+xml,${encodedSVG}`;
+      }
+    </script>
+
+    <script type="module">
       import { initSmoothScroll } from './src/scroll.js';
+      initSmoothScroll();
+    </script>
+
+    <script type="module">
       import { gsap } from 'gsap';
       import SplitType from 'split-type';
-
-      initSmoothScroll();
 
       /** @typedef ScrollTriggerConfig
        * @property {ScrollTrigger.Vars} scrollTrigger
