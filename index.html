@@ -9,9 +9,7 @@
     <link href="/src/my.scss" rel="stylesheet" />
   </head>
 
-  <body
-    class="m-auto flex flex-col gap-y-16 text-[40px] leading-[1.5em] lg:max-w-[856px]"
-  >
+  <body class="m-auto flex flex-col gap-y-16 leading-[1.5em] lg:max-w-[856px]">
     <div class="relative flex justify-center">
       <div
         class="relative max-w-[508px] flex-[1_1_100%] overflow-hidden pb-[60vh] opacity-100 delay-500 duration-500 lg:max-w-[856px]"
@@ -20,10 +18,7 @@
           <img src="/images/avatars/dima.svg" />
         </h2>
 
-        <div
-          id="container-to-text"
-          class="flex flex-col gap-y-16 text-[40px] leading-[1.5em]"
-        >
+        <div class="flex flex-col gap-y-16 text-[40px] leading-[1.5em]">
           <div class="mt-[320px] text-gray-950">
             <span>
               I'm build world-class technology systems for software company.
@@ -103,15 +98,33 @@
           </div>
         </div>
       </div>
+
+      <div
+        class="absolute bottom-[100px] px-6 pt-32 leading-[1.8] font-medium text-[#232323]/40 opacity-100 delay-500 lg:bottom-20"
+      >
+        <div>
+          Drop me a line at
+          <div
+            class="inline-flex translate-y-0.5 cursor-pointer items-center hover:text-[#232323]/80"
+          >
+            <div class="relative flex h-4 w-4 items-center justify-center">
+              <img src="/images/icons/copy.svg" />
+            </div>
+            <span class="transition-color ml-1 text-inherit duration-150">
+              hey@petrovdima.ru
+            </span>
+          </div>
+        </div>
+        <p>© 2025</p>
+      </div>
     </div>
 
     <script type="module">
       import { initSmoothScroll } from './src/scroll.js';
-
-      initSmoothScroll();
-
       import { gsap } from 'gsap';
       import SplitType from 'split-type';
+
+      initSmoothScroll();
 
       /** @typedef ScrollTriggerConfig
        * @property {ScrollTrigger.Vars} scrollTrigger
@@ -133,20 +146,25 @@
         };
       }
 
-      const animatedCharacters = document.querySelectorAll(
+      const animatedCharacters = gsap.utils.toArray(
         '[data-animated-characters]'
       );
-      animatedCharacters.forEach((spanElement) => {
-        const split = new SplitType(spanElement, { types: 'chars' });
 
-        gsap.from(split.chars, {
-          opacity: 0.2, // gsap.from, поэтому начиная с этой прозрачности и до 1
-          stagger: 0.1, // задержка между элементами - каждый следующий через 0.1 секунды
-          color: 'var(--color-gray-950)',
-          ...scrollTrigger(split.chars, {
-            end: 'top 20%', // анимация завершается, когда группа символов достигает y% скрола сверху экрана
-          }),
-        });
+      const splattedTypes = animatedCharacters.map(
+        (spanElement) => new SplitType(spanElement, { types: 'words' })
+      );
+      /** @type {HTMLElement[]} */
+      const splattedWords = splattedTypes.flatMap((type) => type.words);
+
+      gsap.from(splattedWords, {
+        opacity: 0.2, // gsap.from, поэтому начиная с этой прозрачности и до 1
+        stagger: 0.1, // задержка между элементами - каждый следующий через 0.1 секунды
+        color: 'var(--color-gray-950)',
+        ...scrollTrigger(splattedWords, {
+          end: 'bottom 40%', // анимация завершается, когда группа символов достигает y% скрола снизу экрана
+          endTrigger: splattedWords.at(-1),
+          // markers: true,
+        }),
       });
 
       const animatedAvatarContainers = document.querySelectorAll(
