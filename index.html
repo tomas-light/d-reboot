@@ -6,7 +6,7 @@
     <title>Petrov Dima</title>
 
     <link href="/src/tailwind-root.css" rel="stylesheet" />
-    <link href="/src/my.scss" rel="stylesheet" />
+    <link href="/src/avatarsAnimation.scss" rel="stylesheet" />
     <link href="/src/flippingCards.scss" rel="stylesheet" />
   </head>
 
@@ -190,42 +190,23 @@
       import { gsap } from 'gsap';
       import { showHideElementOnScroll } from './src/showHideElementOnScroll.js';
 
-      /** @typedef ScrollTriggerConfig
-       * @property {ScrollTrigger.Vars} scrollTrigger
-       * */
-
-      /**
-       * @param {HTMLElement | HTMLElement[]  | string} trigger
-       * @param {ScrollTrigger.Vars} options
-       * @returns ScrollTriggerConfig
-       * */
-      function scrollTrigger(trigger, options) {
-        return {
-          scrollTrigger: {
-            start: 'top 40%', // анимация запускается, когда группа символов достигает x% скрола сверху экрана
-            scrub: true, // привязка к позиции скрола, а не ко времени
-            trigger: trigger,
-            ...options,
-          },
-        };
-      }
-
       const animatedAvatarContainers = document.querySelectorAll(
         '[data-animated-avatars-container]'
       );
-      animatedAvatarContainers.forEach((avatarElement) => {
-        showHideElementOnScroll(avatarElement);
-      });
+      animatedAvatarContainers.forEach((container) => {
+        showHideElementOnScroll(container);
 
-      gsap.from('[data-animated-avatars-container] [data-animated-avatars]', {
-        scale: 0,
-        duration: 1,
-        transformOrigin: '0px 50%',
-        stagger: 1, // задержка между элементами - каждый следующий через 1 секунду
-        ...scrollTrigger('[data-animated-avatars-container]', {
-          end: 'top 35%', // анимация завершается, когда группа символов достигает y% скрола сверху экрана
-          // markers: true,
-        }),
+        gsap.to('[data-animated-avatars]', {
+          animationName: 'showAvatar',
+          stagger: 100, // задержка между элементами - каждый следующий через 1 секунду
+          scrollTrigger: {
+            scrub: true, // привязка к позиции скрола, а не ко времени
+            start: 'top 40%', // анимация запускается, когда группа символов достигает x% скрола сверху экрана
+            end: 'top 40%', // анимация завершается, когда группа символов достигает y% скрола сверху экрана
+            trigger: container,
+            markers: true,
+          },
+        });
       });
     </script>
   </body>

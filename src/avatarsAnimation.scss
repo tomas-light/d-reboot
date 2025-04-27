@@ -1,10 +1,18 @@
 @use 'sass:math';
 
+[data-animated-avatars-container] {
+  display: inline-flex;
+}
+
 .avatar {
   $size: 64px;
 
   width: $size;
   display: inline-block;
+  animation-duration: 200ms;
+  animation-fill-mode: forwards;
+  scale: 0;
+  transform-origin: 0 50%;
 
   img {
     width: $size;
@@ -16,5 +24,15 @@
 
   &:not(:first-of-type) {
     margin-left: math.div(-$size, 3);
+  }
+
+  @keyframes showAvatar {
+    from {
+      scale: 0;
+    }
+
+    to {
+      scale: 1;
+    }
   }
 }
