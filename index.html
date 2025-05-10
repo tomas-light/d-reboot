@@ -5,102 +5,101 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>byte technologies</title>
 
+    <link href="/src/layout.scss" rel="stylesheet" />
     <link href="/src/tailwind-root.css" rel="stylesheet" />
     <link href="/src/avatarsAnimation.scss" rel="stylesheet" />
     <link href="/src/flippingCards.scss" rel="stylesheet" />
   </head>
 
-  <body class="m-auto flex flex-col gap-y-16 leading-[1.5em] lg:max-w-[856px]">
-    <div class="relative flex justify-center">
-      <div
-        class="relative flex max-w-[508px] flex-[1_1_100%] flex-col gap-[200px] overflow-hidden pt-[200px] pb-[60vh] opacity-100 delay-500 duration-500 lg:max-w-[856px]"
-      >
-        <h2 class="fw text-[30px] text-gray-950">byte technologies</h2>
+  <body class="root">
+    <div class="fixedMain flex flex-col gap-y-[200px]">
+      <header>
+        <h2 class="text-[30px] text-gray-950">byte technologies</h2>
+      </header>
 
-        <div class="flex flex-col gap-y-16 text-[40px] leading-[1.5em]">
-          <div class="text-gray-950">
-            <span>
-              Мы превращаем промышленные и государственные системы в цифровых
-              лидеров.
+      <main class="flex flex-col gap-y-16 text-[40px] leading-[1.5em]">
+        <div class="text-gray-950">
+          <span>
+            Мы превращаем промышленные и государственные системы в цифровых
+            лидеров.
+          </span>
+
+          <span data-animated-logo-cards>
+            <img
+              class="card"
+              data-current
+              src="/images/logos/ya.png"
+              alt="ya"
+            />
+            <img class="card" data-next src="/images/logos/ff.png" alt="ff" />
+            <img class="card" src="/images/logos/pt.png" alt="pt" />
+            <img class="card" src="/images/logos/gpb.png" alt="gpb" />
+            <img class="card" src="/images/logos/solar.png" alt="solar" />
+          </span>
+
+          <span data-animated-characters>Мы команда</span>
+
+          <span data-animated-avatars-container>
+            <span data-animated-avatars class="avatar">
+              <img src="/images/logos/ya.png" alt="ya" />
             </span>
 
-            <span data-animated-logo-cards>
-              <img
-                class="card"
-                data-current
-                src="/images/logos/ya.png"
-                alt="ya"
-              />
-              <img class="card" data-next src="/images/logos/ff.png" alt="ff" />
-              <img class="card" src="/images/logos/pt.png" alt="pt" />
-              <img class="card" src="/images/logos/gpb.png" alt="gpb" />
-              <img class="card" src="/images/logos/solar.png" alt="solar" />
+            <span data-animated-avatars class="avatar">
+              <img src="/images/logos/ff.png" alt="ff" />
             </span>
 
-            <span data-animated-characters>Мы команда</span>
-
-            <span data-animated-avatars-container>
-              <span data-animated-avatars class="avatar">
-                <img src="/images/logos/ya.png" alt="ya" />
-              </span>
-
-              <span data-animated-avatars class="avatar">
-                <img src="/images/logos/ff.png" alt="ff" />
-              </span>
-
-              <span data-animated-avatars class="avatar">
-                <img src="/images/logos/pt.png" alt="pt" />
-              </span>
+            <span data-animated-avatars class="avatar">
+              <img src="/images/logos/pt.png" alt="pt" />
             </span>
+          </span>
 
-            <span data-animated-characters>
-              экспертов с многолетним опытом разработки цифровых решений,
-              которые помогают бизнесу эффективно управлять своей
-              технологической инфраструктурой.
-            </span>
-          </div>
-
-          <div class="relative text-gray-950">
-            <div
-              class="absolute left-1/2 z-10 h-[48px] w-[109.32px] -translate-x-1/2 -translate-y-[0.5px] lg:h-[64px] lg:w-[148px]"
-            >
-              <div style="width: 100%; height: 100%">
-                <canvas
-                  style="vertical-align: top; width: 148px; height: 64px"
-                  width="148"
-                  height="64"
-                  id="canvas-riv-design"
-                ></canvas>
-              </div>
-            </div>
-
-            <span data-animated-characters>Design.</span>
-          </div>
-
-          <div class="text-gray-950">
-            <span data-animated-characters>
-              Внедряем решения на базе искусственного интеллекта для
-              автоматизации, аналитики, мониторинга, диагностики и обеспечения
-              кибербезопасности
-            </span>
-          </div>
-
-          <div class="text-gray-950">
-            <span data-animated-characters>
-              Наши технологии снижают издержки, повышают производительность,
-              обеспечивают безопасность данных, способствуют экологической
-              устойчивости и сокращению энергопотребления.
-            </span>
-          </div>
-
-          <div class="text-gray-950">
-            <span data-animated-characters>
-              Ваша команда должна фокусироваться на стратегических задачах — всё
-              остальное берём на себя мы.
-            </span>
-          </div>
+          <span data-animated-characters>
+            экспертов с многолетним опытом разработки цифровых решений, которые
+            помогают бизнесу эффективно управлять своей технологической
+            инфраструктурой.
+          </span>
         </div>
-      </div>
+
+        <div class="relative text-gray-950">
+          <div
+            class="absolute left-1/2 z-10 h-[48px] w-[109.32px] -translate-x-1/2 -translate-y-[0.5px] lg:h-[64px] lg:w-[148px]"
+          >
+            <div style="width: 100%; height: 100%">
+              <canvas
+                style="vertical-align: top; width: 148px; height: 64px"
+                width="148"
+                height="64"
+                id="canvas-riv-design"
+              ></canvas>
+            </div>
+          </div>
+
+          <span data-animated-characters>Design.</span>
+        </div>
+
+        <div class="text-gray-950">
+          <span data-animated-characters>
+            Внедряем решения на базе искусственного интеллекта для
+            автоматизации, аналитики, мониторинга, диагностики и обеспечения
+            кибербезопасности
+          </span>
+        </div>
+
+        <div class="text-gray-950">
+          <span data-animated-characters>
+            Наши технологии снижают издержки, повышают производительность,
+            обеспечивают безопасность данных, способствуют экологической
+            устойчивости и сокращению энергопотребления.
+          </span>
+        </div>
+
+        <div class="text-gray-950">
+          <span data-animated-characters>
+            Ваша команда должна фокусироваться на стратегических задачах — всё
+            остальное берём на себя мы.
+          </span>
+        </div>
+      </main>
     </div>
 
     <svg
@@ -143,6 +142,7 @@
       // vite-plugin-singlefile не может её встроить через обычный
       // <link rel="icon" type="image/png" href="/images/avatars/dima.svg" />
       import { insertFavicon } from './src/insertFavicon.js';
+
       const dimaSvg = document.getElementById('dima.svg');
       if (dimaSvg) {
         insertFavicon(dimaSvg.outerHTML);
@@ -152,18 +152,21 @@
     <script type="module">
       // делаем скрол плавным
       import { initSmoothScroll } from './src/scroll.js';
+
       initSmoothScroll();
     </script>
 
     <script type="module">
       // анимация появления слов
       import { animateWordsAppearing } from './src/animateWordsAppearing.js';
+
       animateWordsAppearing('[data-animated-characters]');
     </script>
 
     <script type="module">
       // анимация перелистывания карточек
       import { animateCardsFlipping } from './src/animateCardsFlipping.js';
+
       document
         .querySelectorAll('[data-animated-logo-cards]')
         .forEach((cardContainer) => {
@@ -210,6 +213,7 @@
     <script type="module">
       // анимация перелистывания карточек
       import { createDesignRiv } from './src/rive-animations/design/createDesignRiv.ts';
+
       const designCanvas = document.getElementById('canvas-riv-design');
       if (designCanvas) {
         createDesignRiv(designCanvas);
