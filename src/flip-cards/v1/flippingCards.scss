@@ -19,16 +19,16 @@
     border-radius: 16px;
     transition: transform 300ms;
 
-    &[data-current] {
+    &[data-order='1'] {
       z-index: $currentZIndex;
       transform: translateY(5%) rotate(5deg);
     }
 
-    &:not([data-current], [data-next]) {
+    &:not([data-order='1'], [data-order='2']) {
       transform: translateY(-5%);
     }
 
-    &[data-next] {
+    &[data-order='2'] {
       z-index: $nextZIndex;
       transform: rotate(-5deg);
 

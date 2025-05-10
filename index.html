@@ -8,7 +8,8 @@
     <link href="/src/layout.scss" rel="stylesheet" />
     <link href="/src/tailwind-root.css" rel="stylesheet" />
     <link href="/src/avatarsAnimation.scss" rel="stylesheet" />
-    <link href="/src/flippingCards.scss" rel="stylesheet" />
+    <!--    <link href="/src/flip-cards/v1/flippingCards.scss" rel="stylesheet" />-->
+    <link href="/src/flip-cards/v2/flippingCards.scss" rel="stylesheet" />
   </head>
 
   <body class="root">
@@ -25,16 +26,25 @@
           </span>
 
           <span data-flipping-cards>
-            <img
-              class="card"
-              data-current
-              src="/images/logos/ya.png"
-              alt="ya"
-            />
-            <img class="card" data-next src="/images/logos/ff.png" alt="ff" />
-            <img class="card" src="/images/logos/pt.png" alt="pt" />
-            <img class="card" src="/images/logos/gpb.png" alt="gpb" />
-            <img class="card" src="/images/logos/solar.png" alt="solar" />
+            <span class="card">
+              <img src="/images/logos/ya.png" alt="ya" />
+            </span>
+
+            <span class="card">
+              <img src="/images/logos/ff.png" alt="ff" />
+            </span>
+
+            <span class="card">
+              <img src="/images/logos/pt.png" alt="pt" />
+            </span>
+
+            <span class="card">
+              <img src="/images/logos/gpb.png" alt="gpb" />
+            </span>
+
+            <span class="card">
+              <img src="/images/logos/solar.png" alt="solar" />
+            </span>
           </span>
 
           <span data-animated-characters>Мы команда</span>
@@ -165,24 +175,9 @@
 
     <script type="module">
       // анимация перелистывания карточек
-      import { animateCardsFlipping } from './src/animateCardsFlipping.js';
-
-      document
-        .querySelectorAll('[data-flipping-cards]')
-        .forEach((cardContainer) => {
-          animateCardsFlipping({
-            cardContainer,
-            selectCard: (selector) => {
-              /**
-               * @example
-               * .card[data-next]
-               * @example
-               * .card:not([data-current])
-               * */
-              return cardContainer.querySelectorAll(`.card${selector}`);
-            },
-          });
-        });
+      // import { animateCardsFlipping } from './src/flip-cards/v1/animateCardsFlipping.ts';
+      import { animateCardsFlipping } from './src/flip-cards/v2/animateCardsFlipping.ts';
+      animateCardsFlipping();
     </script>
 
     <script type="module">
