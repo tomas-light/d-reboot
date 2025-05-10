@@ -1,7 +1,5 @@
-export function insertFavicon(svgOnPage: HTMLElement) {
-  const encodedSVG = svgOnPage.outerHTML
-    .replace(/\"/g, '%22')
-    .replace(/\#/g, '%23');
+export function insertFavicon(svgHtmlCode: string) {
+  const encodedSVG = svgHtmlCode.replace(/\"/g, '%22').replace(/\#/g, '%23');
 
   const link = document.createElement('link');
   link.rel = 'icon';
