@@ -13,13 +13,13 @@
   </head>
 
   <body class="root">
-    <div class="fixedMain flex flex-col gap-y-[200px]">
+    <div class="fixedMain flex flex-col gap-y-[200px] text-gray-950">
       <header>
-        <h2 class="text-[30px] text-gray-950">byte technologies</h2>
+        <h2 class="text-[30px]">byte technologies</h2>
       </header>
 
       <main class="flex flex-col gap-y-16 text-[40px] leading-[1.5em]">
-        <div class="text-gray-950">
+        <p>
           <span>
             Мы превращаем промышленные и государственные системы в цифровых
             лидеров.
@@ -68,49 +68,49 @@
             помогают бизнесу эффективно управлять своей технологической
             инфраструктурой.
           </span>
-        </div>
+        </p>
 
-        <div class="relative text-gray-950">
-          <div
-            class="absolute left-1/2 z-10 h-[48px] w-[109.32px] -translate-x-1/2 -translate-y-[0.5px] lg:h-[64px] lg:w-[148px]"
-          >
-            <div style="width: 100%; height: 100%">
-              <canvas
-                style="vertical-align: top; width: 148px; height: 64px"
-                width="148"
-                height="64"
-                id="canvas-riv-design"
-              ></canvas>
-            </div>
-          </div>
-
-          <span data-animated-characters>Design.</span>
-        </div>
-
-        <div class="text-gray-950">
+        <p>
           <span data-animated-characters>
             Внедряем решения на базе искусственного интеллекта для
             автоматизации, аналитики, мониторинга, диагностики и обеспечения
             кибербезопасности
           </span>
-        </div>
+        </p>
 
-        <div class="text-gray-950">
+        <p>
           <span data-animated-characters>
             Наши технологии снижают издержки, повышают производительность,
             обеспечивают безопасность данных, способствуют экологической
             устойчивости и сокращению энергопотребления.
           </span>
-        </div>
+        </p>
 
-        <div class="text-gray-950">
+        <p>
           <span data-animated-characters>
             Ваша команда должна фокусироваться на стратегических задачах — всё
             остальное берём на себя мы.
           </span>
-        </div>
+        </p>
       </main>
+
+      <p class="relative">
+        <span data-animated-characters>Обсудить проект</span>
+        <!--<span
+          data-animated-horizontal-line
+          class="absolute bottom-0 left-0 h-1 w-[calc(100%-6px)] bg-black transition-all group-hover:w-0"
+        ></span>-->
+      </p>
     </div>
+
+    <!--<div class="relative text-gray-950">
+      <canvas
+        style="vertical-align: top; width: 148px; height: 64px"
+        width="148"
+        height="64"
+        id="canvas-riv-design"
+      ></canvas>
+    </div>-->
 
     <svg
       style="display: none"
@@ -162,14 +162,12 @@
     <script type="module">
       // делаем скрол плавным
       import { initSmoothScroll } from './src/scroll.js';
-
       initSmoothScroll();
     </script>
 
     <script type="module">
       // анимация появления слов
       import { animateWordsAppearing } from './src/animateWordsAppearing.js';
-
       animateWordsAppearing('[data-animated-characters]');
     </script>
 
@@ -199,7 +197,7 @@
             start: 'top 40%', // анимация запускается, когда группа символов достигает x% скрола сверху экрана
             end: 'top 40%', // анимация завершается, когда группа символов достигает y% скрола сверху экрана
             trigger: container,
-            markers: true,
+            // markers: true,
           },
         });
       });
