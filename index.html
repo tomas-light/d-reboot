@@ -24,7 +24,7 @@
             лидеров.
           </span>
 
-          <span data-animated-logo-cards>
+          <span data-flipping-cards>
             <img
               class="card"
               data-current
@@ -168,7 +168,7 @@
       import { animateCardsFlipping } from './src/animateCardsFlipping.js';
 
       document
-        .querySelectorAll('[data-animated-logo-cards]')
+        .querySelectorAll('[data-flipping-cards]')
         .forEach((cardContainer) => {
           animateCardsFlipping({
             cardContainer,
