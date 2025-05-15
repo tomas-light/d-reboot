@@ -5,7 +5,38 @@
   justify-content: center;
 }
 
-.fixedMain {
+.widthWrapper {
   max-width: 820px;
   padding: 200px 0;
+}
+
+footer {
+  display: flex;
+  row-gap: 16px;
+  flex-direction: column;
+  color: #aaa;
+
+  $hoverColor: blue;
+
+  svg#copy-mail-icon {
+    display: inline-block;
+
+    &:hover {
+      color: $hoverColor;
+      cursor: pointer;
+
+      & + #email {
+        color: $hoverColor;
+      }
+    }
+  }
+
+  #email:hover {
+    color: $hoverColor;
+    cursor: pointer;
+  }
+
+  svg#copy-mail-icon:has(+ #email:hover) {
+    color: $hoverColor;
+  }
 }
