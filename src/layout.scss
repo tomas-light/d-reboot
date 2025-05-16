@@ -40,3 +40,9 @@ footer {
     color: $hoverColor;
   }
 }
+
+canvas[data-rive-name] {
+  width: 60px;
+  height: 60px;
+  display: inline-block;
+}
