@@ -1,50 +1,15 @@
 import { Alignment, Fit, Layout, Rive } from '@rive-app/canvas';
 import { resizeRiveOnWindowResize } from './resizeRiveOnWindowResize';
-import type { RivKind } from './RivKind';
+
+// same hardcoded name in all animations (the name is embedded in files)
+const RIVE_ANIMATIONS_STATE_MACHINE_NAME = 'State Machine 1';
 
 export function attachRivAnimation(
   canvas: HTMLCanvasElement,
   rivName: string | undefined
 ) {
-  let src: string;
-
-  switch (rivName as RivKind) {
-    case 'ai':
-      src = '/rive-animations/ai-icon.riv';
-      // src = '/rive-animation-assets/3d.riv';
-      break;
-
-    case 'eco':
-      src = '/rive-animations/eco-icon.riv';
-      break;
-
-    case 'down':
-      src = '/rive-animations/down-icon.riv';
-      break;
-
-    case 'up':
-      src = '/rive-animations/up-icon.riv';
-      break;
-
-    case 'lock':
-      src = '/rive-animations/lock-icon.riv';
-      break;
-
-    case 'discuss':
-      src = '/rive-animations/discuss-icon.riv';
-      break;
-
-    case 'energy':
-      src = '/rive-animations/energy-icon.riv';
-      break;
-
-    default:
-      console.warn(`unsupported riv animation name (${rivName})`);
-      return;
-  }
-
   const riveInstance = new Rive({
-    src: src,
+    src: `/rive-animations/${rivName}.riv`,
     canvas,
     stateMachines: RIVE_ANIMATIONS_STATE_MACHINE_NAME,
     layout: new Layout({
@@ -60,5 +25,3 @@ export function attachRivAnimation(
 
   resizeRiveOnWindowResize(riveInstance);
 }
-
-const RIVE_ANIMATIONS_STATE_MACHINE_NAME = 'State Machine 1'; // same hardcoded name in all animations
