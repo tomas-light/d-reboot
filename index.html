@@ -7,7 +7,6 @@
 
     <link href="/src/layout.scss" rel="stylesheet" />
     <link href="/src/tailwind-root.css" rel="stylesheet" />
-    <link href="/src/avatarsAnimation.scss" rel="stylesheet" />
     <!--    <link href="/src/flip-cards/v1/flippingCards.scss" rel="stylesheet" />-->
     <link href="/src/flip-cards/v2/flippingCards.scss" rel="stylesheet" />
   </head>
@@ -240,12 +239,14 @@
         '[data-animated-avatars-container]'
       );
 
-      animatedAvatarContainers.forEach(async (container) => {
+      animatedAvatarContainers.forEach(async (avatarsContainer) => {
         /** @type HTMLCanvasElement[] */
-        const avatars = container.querySelectorAll('[data-animated-avatars]');
+        const avatars = avatarsContainer.querySelectorAll(
+          '[data-animated-avatars]'
+        );
 
         /** @type HTMLCanvasElement */
-        const counterRiveCanvas = document.querySelector(
+        const counterRiveCanvas = avatarsContainer.querySelector(
           'canvas[data-rive-name=people-icon]'
         );
 
@@ -256,26 +257,21 @@
           );
 
         ScrollTrigger.create({
-          trigger: container,
+          trigger: avatarsContainer,
           start: 'top 40%', // анимация запускается, когда группа символов достигает x% скрола сверху экрана
           end: 'top 40%', // анимация завершается, когда группа символов достигает y% скрола сверху экрана
           scrub: true, // привязка к позиции скрола, а не ко времени
           onUpdate: (scrollTrigger) => {
             const isScrollDown = scrollTrigger.direction > 0;
             if (isScrollDown) {
-              container.classList.add('showed');
-              avatars.forEach((avatar) => {
-                avatar.classList.add('showed');
-              });
-              counterRiveCanvas.classList.add('showed');
+              avatarsContainer.setAttribute('data-showed', '');
+              counterRiveCanvas.setAttribute('data-showed', '');
               riveInstance.play(); // если анимация еще не была запущена
               playIconShowing();
             } else {
               playIconHiding();
-              container.classList.remove('showed');
-              avatars.forEach((avatar) => {
-                avatar.classList.remove('showed');
-              });
+              avatarsContainer.removeAttribute('data-showed');
+              counterRiveCanvas.removeAttribute('data-showed');
             }
           },
         });
@@ -305,12 +301,12 @@
           onUpdate: (scrollTrigger) => {
             const isScrollDown = scrollTrigger.direction > 0;
             if (isScrollDown) {
-              rivCanvas.classList.add('showed');
+              rivCanvas.setAttribute('data-showed', '');
               riveInstance.play(); // если анимация еще не была запущена
               playIconShowing();
             } else {
               playIconHiding();
-              rivCanvas.classList.remove('showed');
+              rivCanvas.removeAttribute('data-showed');
             }
           },
         });
