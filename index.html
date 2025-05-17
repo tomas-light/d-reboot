@@ -61,6 +61,8 @@
             <span data-animated-avatars class="avatar">
               <img src="/images/logos/pt.png" alt="pt" />
             </span>
+
+            <canvas data-rive-name="people-icon"></canvas>
           </span>
 
           <span data-animated-characters>
@@ -100,7 +102,7 @@
         </p>
       </main>
 
-      <p class="relative">
+      <p class="relative text-[40px]">
         <span data-animated-characters>Обсудить проект</span>
         <canvas data-rive-name="discuss-icon"></canvas>
         <!--<span
@@ -260,14 +262,32 @@
 
     <script type="module">
       // riv анимации
+      import { ScrollTrigger } from 'gsap/ScrollTrigger';
       import { attachRivAnimation } from './src/rive-animations/attachRivAnimation.ts';
-      import { showHideElementOnScroll } from './src/showHideElementOnScroll.js';
 
       /** @type HTMLCanvasElement[] */
       const rivCanvases = document.querySelectorAll('canvas[data-rive-name]');
-      rivCanvases.forEach((rivCanvas) => {
-        showHideElementOnScroll(rivCanvas);
-        attachRivAnimation(rivCanvas, rivCanvas.dataset.riveName);
+      rivCanvases.forEach(async (rivCanvas) => {
+        const { riveInstance, playIconShowing, playIconHiding } =
+          await attachRivAnimation(rivCanvas, rivCanvas.dataset.riveName);
+
+        ScrollTrigger.create({
+          trigger: rivCanvas,
+          start: 'top 40%', // анимация запускается, когда группа символов достигает x% скрола сверху экрана
+          end: 'top 40%', // анимация завершается, когда группа символов достигает y% скрола сверху экрана
+          scrub: true, // привязка к позиции скрола, а не ко времени
+          onUpdate: (scrollTrigger) => {
+            const isScrollDown = scrollTrigger.direction > 0;
+            if (isScrollDown) {
+              rivCanvas.classList.add('showed');
+              riveInstance.play(); // если анимация еще не была запущена
+              playIconShowing();
+            } else {
+              playIconHiding();
+              rivCanvas.classList.remove('showed');
+            }
+          },
+        });
       });
     </script>
   </body>
