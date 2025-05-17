@@ -6,6 +6,7 @@ import {
   StateMachineInput,
 } from '@rive-app/canvas';
 import { resizeRiveOnWindowResize } from './resizeRiveOnWindowResize';
+import envJson from '../env.json';
 
 // same hardcoded name in all animations (the name is embedded in files)
 const RIVE_ANIMATIONS_STATE_MACHINE_NAME = 'State Machine 1';
@@ -21,7 +22,7 @@ export function attachRivAnimation(
     playIconHiding: VoidFunction;
   }>((resolve) => {
     const riveInstance = new Rive({
-      src: `/rive-animations/${rivName}.riv`,
+      src: `${envJson.BASE_URL_TO_PUBLIC}/rive-animations/${rivName}.riv`,
       canvas,
       stateMachines: RIVE_ANIMATIONS_STATE_MACHINE_NAME,
       layout: new Layout({
