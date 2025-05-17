@@ -51,15 +51,11 @@
 
           <span data-animated-avatars-container>
             <span data-animated-avatars class="avatar">
-              <img src="/images/logos/ya.png" alt="ya" />
+              <img src="/images/avatars/dog-1.png" alt="dog-1" />
             </span>
 
             <span data-animated-avatars class="avatar">
-              <img src="/images/logos/ff.png" alt="ff" />
-            </span>
-
-            <span data-animated-avatars class="avatar">
-              <img src="/images/logos/pt.png" alt="pt" />
+              <img src="/images/avatars/dog-2.png" alt="dog-2" />
             </span>
 
             <canvas data-rive-name="people-icon"></canvas>
@@ -236,25 +232,51 @@
     </script>
 
     <script type="module">
-      // анимация появления аватарок компаний
-      import { gsap } from 'gsap';
-      import { showHideElementOnScroll } from './src/showHideElementOnScroll.js';
+      // анимация появления аватарок
+      import { ScrollTrigger } from 'gsap/ScrollTrigger';
+      import { attachRivAnimation } from './src/rive-animations/attachRivAnimation.ts';
 
       const animatedAvatarContainers = document.querySelectorAll(
         '[data-animated-avatars-container]'
       );
-      animatedAvatarContainers.forEach((container) => {
-        showHideElementOnScroll(container);
 
-        gsap.to('[data-animated-avatars]', {
-          animationName: 'showAvatar',
-          stagger: 100, // задержка между элементами - каждый следующий через 1 секунду
-          scrollTrigger: {
-            scrub: true, // привязка к позиции скрола, а не ко времени
-            start: 'top 40%', // анимация запускается, когда группа символов достигает x% скрола сверху экрана
-            end: 'top 40%', // анимация завершается, когда группа символов достигает y% скрола сверху экрана
-            trigger: container,
-            // markers: true,
+      animatedAvatarContainers.forEach(async (container) => {
+        /** @type HTMLCanvasElement[] */
+        const avatars = container.querySelectorAll('[data-animated-avatars]');
+
+        /** @type HTMLCanvasElement */
+        const counterRiveCanvas = document.querySelector(
+          'canvas[data-rive-name=people-icon]'
+        );
+
+        const { riveInstance, playIconShowing, playIconHiding } =
+          await attachRivAnimation(
+            counterRiveCanvas,
+            counterRiveCanvas.dataset.riveName
+          );
+
+        ScrollTrigger.create({
+          trigger: container,
+          start: 'top 40%', // анимация запускается, когда группа символов достигает x% скрола сверху экрана
+          end: 'top 40%', // анимация завершается, когда группа символов достигает y% скрола сверху экрана
+          scrub: true, // привязка к позиции скрола, а не ко времени
+          onUpdate: (scrollTrigger) => {
+            const isScrollDown = scrollTrigger.direction > 0;
+            if (isScrollDown) {
+              container.classList.add('showed');
+              avatars.forEach((avatar) => {
+                avatar.classList.add('showed');
+              });
+              counterRiveCanvas.classList.add('showed');
+              riveInstance.play(); // если анимация еще не была запущена
+              playIconShowing();
+            } else {
+              playIconHiding();
+              container.classList.remove('showed');
+              avatars.forEach((avatar) => {
+                avatar.classList.remove('showed');
+              });
+            }
           },
         });
       });
@@ -268,6 +290,10 @@
       /** @type HTMLCanvasElement[] */
       const rivCanvases = document.querySelectorAll('canvas[data-rive-name]');
       rivCanvases.forEach(async (rivCanvas) => {
+        if (rivCanvas.dataset.riveName === 'people-icon') {
+          return;
+        }
+
         const { riveInstance, playIconShowing, playIconHiding } =
           await attachRivAnimation(rivCanvas, rivCanvas.dataset.riveName);
 

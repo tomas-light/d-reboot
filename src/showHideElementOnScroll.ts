@@ -1,15 +1,18 @@
-import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 export function showHideElementOnScroll(element: Element) {
-  gsap.from(element, {
-    width: 0,
-    ['margin-left']: '-0.5rem', // когда элемент скрыт, без этого сдвига ощущение, что между текстом два пробела стоит
-    // display: 'inline-flex',
-    scrollTrigger: {
-      start: 'top 40%', // анимация запускается, когда группа символов достигает x% скрола сверху экрана
-      end: 'top 40%', // анимация завершается, когда группа символов достигает y% скрола сверху экрана
-      scrub: true, // привязка к позиции скрола, а не ко времени
-      trigger: element,
+  ScrollTrigger.create({
+    trigger: element,
+    start: 'top 40%', // анимация запускается, когда группа символов достигает x% скрола сверху экрана
+    end: 'top 40%', // анимация завершается, когда группа символов достигает y% скрола сверху экрана
+    scrub: true, // привязка к позиции скрола, а не ко времени
+    onUpdate: (scrollTrigger) => {
+      const isScrollDown = scrollTrigger.direction > 0;
+      if (isScrollDown) {
+        element.classList.add('showed');
+      } else {
+        element.classList.remove('showed');
+      }
     },
   });
 }

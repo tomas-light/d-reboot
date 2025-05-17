@@ -1,7 +1,13 @@
 @use 'sass:math';
 
 [data-animated-avatars-container] {
+  height: 60px;
   display: inline-flex;
+
+  &:not(.showed) {
+    width: 0;
+    margin-left: -0.5rem; // когда элемент скрыт, без этого сдвига ощущение, что между текстом два пробела стоит
+  }
 }
 
 .avatar {
@@ -24,6 +30,10 @@
 
   &:not(:first-of-type) {
     margin-left: math.div(-$size, 3);
+  }
+
+  &.showed {
+    animation-name: showAvatar;
   }
 
   @keyframes showAvatar {
