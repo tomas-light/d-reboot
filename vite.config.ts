@@ -13,7 +13,7 @@ export const paths = {
 
 export default defineConfig(async (env): Promise<UserConfig> => {
   const BASE_URL_TO_PUBLIC =
-    env.mode === 'production' && !env.isPreview ? '/d-reboot/' : '';
+    env.mode === 'production' && !env.isPreview ? '/d-reboot/' : '/';
 
   const generatedEnvContent = JSON.stringify(
     {

@@ -22,7 +22,7 @@ export function attachRivAnimation(
     playIconHiding: VoidFunction;
   }>((resolve) => {
     const riveInstance = new Rive({
-      src: `${envJson.BASE_URL_TO_PUBLIC}/rive-animations/${rivName}.riv`,
+      src: `${envJson.BASE_URL_TO_PUBLIC}rive-animations/${rivName}.riv`,
       canvas,
       stateMachines: RIVE_ANIMATIONS_STATE_MACHINE_NAME,
       layout: new Layout({
