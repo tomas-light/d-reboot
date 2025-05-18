@@ -62,30 +62,5 @@ body {
       font-weight: 400;
       line-height: 24px;
     }
-
-    $hoverColor: blue;
-
-    svg#copy-mail-icon {
-      display: inline-block;
-      vertical-align: middle;
-
-      &:hover {
-        color: $hoverColor;
-        cursor: pointer;
-
-        & + #email {
-          color: $hoverColor;
-        }
-      }
-    }
-
-    #email:hover {
-      color: $hoverColor;
-      cursor: pointer;
-    }
-
-    svg#copy-mail-icon:has(+ #email:hover) {
-      color: $hoverColor;
-    }
   }
 }

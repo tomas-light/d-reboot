@@ -12,6 +12,7 @@
     <link href="/src/flip-cards/v2/flippingCards.scss" rel="stylesheet" />
     <link href="/src/animatedAvatars.scss" rel="stylesheet" />
     <link href="/src/rive-animations/rive.scss" rel="stylesheet" />
+    <link href="/src/copy-email.scss" rel="stylesheet" />
   </head>
 
   <body>
@@ -173,9 +174,9 @@
         <span data-animated-characters>Обсудить проект</span>
         <canvas data-rive-name="discuss-icon"></canvas>
         <!--<span
-          data-animated-horizontal-line
-          class="absolute bottom-0 left-0 h-1 w-[calc(100%-6px)] bg-black transition-all group-hover:w-0"
-        ></span>-->
+      data-animated-horizontal-line
+      class="absolute bottom-0 left-0 h-1 w-[calc(100%-6px)] bg-black transition-all group-hover:w-0"
+    ></span>-->
       </p>
     </main>
 
@@ -202,6 +203,7 @@
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           id="copy-mail-icon"
+          data-showed
         >
           <path
             fill-rule="evenodd"
@@ -211,6 +213,22 @@
           />
         </svg>
 
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 16 16"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          id="success-copied-icon"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M8.00004 1.33337C4.31814 1.33337 1.33337 4.31814 1.33337 8.00004C1.33337 11.6819 4.31814 14.6667 8.00004 14.6667C11.6819 14.6667 14.6667 11.6819 14.6667 8.00004C14.6667 4.31814 11.6819 1.33337 8.00004 1.33337ZM10.516 6.75555C10.7492 6.47059 10.7072 6.05057 10.4222 5.81742C10.1372 5.58427 9.71722 5.62627 9.48407 5.91124L6.95055 9.00776L6.13811 8.19532C5.87776 7.93497 5.45565 7.93497 5.1953 8.19532C4.93495 8.45567 4.93495 8.87778 5.1953 9.13813L6.52864 10.4715C6.66182 10.6047 6.84513 10.6753 7.03325 10.6659C7.22137 10.6565 7.39674 10.568 7.51601 10.4222L10.516 6.75555Z"
+            fill="currentColor"
+          ></path>
+        </svg>
+
         <span id="email">hi@bytetechnologies.ru</span>
       </p>
 
@@ -218,33 +236,45 @@
     </footer>
 
     <script type="module">
+      let timer = null;
       async function onClick() {
         try {
           const email = 'hi@bytetechnologies.ru';
           await navigator.clipboard.writeText(email);
           changeIconToSuccess();
         } finally {
-          setTimeout(changeIconToCopy, 1000);
+          clearTimeout(timer);
+          timer = setTimeout(changeIconToCopy, 1000);
         }
       }
 
-      function changeIconToSuccess() {}
-      function changeIconToCopy() {}
+      const copyIcon = document.getElementById('copy-mail-icon');
+      const successCopiedIcon = document.getElementById('success-copied-icon');
 
-      document
-        .getElementById('copy-mail-icon')
-        .addEventListener('click', onClick);
+      function changeIconToSuccess() {
+        successCopiedIcon.setAttribute('data-showed', '');
+        copyIcon.removeAttribute('data-showed');
+      }
+
+      function changeIconToCopy() {
+        copyIcon.setAttribute('data-showed', '');
+        successCopiedIcon.removeAttribute('data-showed');
+      }
+
+      copyIcon.addEventListener('click', onClick);
       document.getElementById('email').addEventListener('click', onClick);
     </script>
 
     <script type="module">
       import { initGsapScroll } from './src/scroll.js';
+
       initGsapScroll();
     </script>
 
     <script type="module">
       // анимация появления слов
       import { animateWordsAppearing } from './src/animateWordsAppearing.js';
+
       animateWordsAppearing('[data-animated-characters]');
     </script>
 
@@ -252,6 +282,7 @@
       // анимация перелистывания карточек
       // import { animateCardsFlipping } from './src/flip-cards/v1/animateCardsFlipping.ts';
       import { animateCardsFlipping } from './src/flip-cards/v2/animateCardsFlipping.ts';
+
       animateCardsFlipping();
     </script>
 
