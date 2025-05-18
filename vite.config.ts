@@ -1,4 +1,3 @@
-import tailwindcss from '@tailwindcss/vite';
 import { writeFile } from 'node:fs/promises';
 import path from 'path';
 import process from 'process';
@@ -25,7 +24,6 @@ export default defineConfig(async (): Promise<UserConfig> => {
   await writeFile(paths.env, envContent, 'utf8');
 
   return {
-    plugins: [tailwindcss()],
     css: {
       preprocessorOptions: {
         scss: {

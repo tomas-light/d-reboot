@@ -73,6 +73,11 @@ $borderRadiusCovered: 20px;
       transform 300ms,
       opacity 200ms;
 
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
     &[data-order='1'] {
       @include firstCard;
 
