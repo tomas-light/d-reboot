@@ -23,9 +23,16 @@ svg#copy-mail-icon {
   }
 }
 
-*:has(> #copy-mail-icon:hover, > #success-copied-icon[data-showed]) {
+*:has(> #copy-mail-icon:hover) {
   #email {
     color: $hoverColor;
+  }
+}
+
+*:has(> #success-copied-icon[data-showed]) {
+  #email {
+    color: $hoverColor;
+    cursor: initial;
   }
 }
 
