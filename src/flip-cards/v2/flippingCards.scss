@@ -1,8 +1,13 @@
+@use '../../mediaVariables';
+
 $size: 60px;
+$sizeSM: 40px;
 $nextZIndex: 1;
 $currentZIndex: $nextZIndex + 1;
 $borderRadius: 16px;
+$borderRadiusSM: 8px;
 $borderRadiusCovered: 20px;
+$borderRadiusCoveredSM: 12px;
 
 @mixin pseudoCard() {
   position: absolute;
@@ -11,6 +16,11 @@ $borderRadiusCovered: 20px;
   width: $size;
   height: $size;
   content: '';
+
+  @media (width < mediaVariables.$smallWidth) {
+    width: $sizeSM;
+    height: $sizeSM;
+  }
 }
 
 @mixin firstCard() {
@@ -18,6 +28,10 @@ $borderRadiusCovered: 20px;
 
   > img {
     border-radius: $borderRadius;
+
+    @media (width < mediaVariables.$smallWidth) {
+      border-radius: $borderRadiusSM;
+    }
   }
 
   &:after {
@@ -31,6 +45,10 @@ $borderRadiusCovered: 20px;
 
   > img {
     border-radius: $borderRadiusCovered;
+
+    @media (width < mediaVariables.$smallWidth) {
+      border-radius: $borderRadiusCoveredSM;
+    }
   }
 
   &:after {
@@ -38,6 +56,10 @@ $borderRadiusCovered: 20px;
 
     border-radius: $borderRadius;
     background-color: rgb(194 194 194);
+
+    @media (width < mediaVariables.$smallWidth) {
+      border-radius: $borderRadiusSM;
+    }
   }
 }
 
@@ -46,6 +68,10 @@ $borderRadiusCovered: 20px;
 
   > img {
     border-radius: $borderRadiusCovered;
+
+    @media (width < mediaVariables.$smallWidth) {
+      border-radius: $borderRadiusCoveredSM;
+    }
   }
 
   &:after {
@@ -53,6 +79,10 @@ $borderRadiusCovered: 20px;
 
     border-radius: $borderRadius;
     background-color: rgb(245 245 245);
+
+    @media (width < mediaVariables.$smallWidth) {
+      border-radius: $borderRadiusSM;
+    }
   }
 }
 
@@ -64,6 +94,11 @@ $borderRadiusCovered: 20px;
   margin-top: -50%;
   transform: translateY(25%);
 
+  @media (width < mediaVariables.$smallWidth) {
+    width: $sizeSM;
+    height: $sizeSM;
+  }
+
   .card {
     position: absolute;
     width: $size;
@@ -72,6 +107,11 @@ $borderRadiusCovered: 20px;
     transition:
       transform 300ms,
       opacity 200ms;
+
+    @media (width < mediaVariables.$smallWidth) {
+      width: $sizeSM;
+      height: $sizeSM;
+    }
 
     img {
       max-width: 100%;

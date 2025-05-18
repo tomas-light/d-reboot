@@ -1,6 +1,16 @@
+@use '../mediaVariables';
+
+$size: 60px;
+$sizeSM: 40px;
+
 canvas[data-rive-name] {
-  height: 60px;
+  height: $size;
   display: inline-block;
+  vertical-align: middle;
+
+  @media (width < mediaVariables.$smallWidth) {
+    height: $sizeSM;
+  }
 
   &:not([data-showed]) {
     width: 0;
@@ -8,6 +18,10 @@ canvas[data-rive-name] {
   }
 
   &[data-showed] {
-    width: 60px;
+    width: $size;
+
+    @media (width < mediaVariables.$smallWidth) {
+      width: $sizeSM;
+    }
   }
 }

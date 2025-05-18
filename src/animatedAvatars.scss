@@ -1,4 +1,7 @@
+@use './mediaVariables';
+
 $avatarSize: 60px;
+$avatarSizeSM: 40px;
 $avatarBorderWidth: 4px;
 
 [data-animated-avatars-container] {
@@ -39,6 +42,12 @@ $avatarBorderWidth: 4px;
     line-height: $avatarSize;
     transform-origin: 0 50%;
 
+    @media (width < mediaVariables.$smallWidth) {
+      width: $avatarSizeSM;
+      height: $avatarSizeSM;
+      line-height: $avatarSizeSM;
+    }
+
     &:first-of-type {
       z-index: 1;
     }
@@ -51,6 +60,11 @@ $avatarBorderWidth: 4px;
       width: $avatarSize;
       height: $avatarSize;
       display: inline-block;
+
+      @media (width < mediaVariables.$smallWidth) {
+        width: $avatarSizeSM;
+        height: $avatarSizeSM;
+      }
     }
 
     @keyframes showAvatar {
