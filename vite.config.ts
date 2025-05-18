@@ -32,5 +32,8 @@ export default defineConfig(async (): Promise<UserConfig> => {
       },
     },
     base: BASE_URL_TO_PUBLIC,
+    server: {
+      open: true,
+    },
   };
 });
