@@ -1,8 +1,9 @@
-.root {
+body {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  font-family: InterDisplay, serif;
 }
 
 .widthWrapper {
@@ -38,96 +39,5 @@ footer {
 
   svg#copy-mail-icon:has(+ #email:hover) {
     color: $hoverColor;
-  }
-}
-
-canvas[data-rive-name] {
-  height: 60px;
-  display: inline-block;
-
-  &:not([data-showed]) {
-    width: 0;
-    margin-left: -0.5rem; // когда элемент скрыт, без этого сдвига ощущение, что между текстом два пробела стоит
-  }
-
-  &[data-showed] {
-    width: 60px;
-  }
-}
-
-$avatarSize: 60px;
-$avatarBorderWidth: 4px;
-
-[data-animated-avatars-container] {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  vertical-align: middle;
-
-  &:not([data-showed]) {
-    width: 0;
-    margin-left: -0.5rem; // когда элемент скрыт, без этого сдвига ощущение, что между текстом два пробела стоит
-
-    .avatar {
-      animation-name: hideAvatar;
-    }
-  }
-
-  &[data-showed] {
-    .avatar {
-      display: inline-flex;
-      animation-name: showAvatar;
-    }
-  }
-
-  canvas[data-rive-name='people-icon'] {
-    margin-left: #{-$avatarBorderWidth * 2};
-  }
-
-  .avatar {
-    width: $avatarSize;
-    height: $avatarSize;
-    box-sizing: content-box;
-    overflow: clip;
-    border: $avatarBorderWidth solid white;
-    border-radius: 100%;
-    animation-duration: 200ms;
-    animation-fill-mode: forwards;
-    line-height: $avatarSize;
-    transform-origin: 0 50%;
-
-    &:first-of-type {
-      z-index: 1;
-    }
-
-    &:not(:first-of-type) {
-      margin-left: #{-$avatarBorderWidth * 2};
-    }
-
-    img {
-      width: $avatarSize;
-      height: $avatarSize;
-      display: inline-block;
-    }
-
-    @keyframes showAvatar {
-      from {
-        scale: 0;
-      }
-
-      to {
-        scale: 1;
-      }
-    }
-
-    @keyframes hideAvatar {
-      from {
-        scale: 1;
-      }
-
-      to {
-        scale: 0;
-      }
-    }
   }
 }

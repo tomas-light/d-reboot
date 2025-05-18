@@ -1,0 +1,13 @@
+canvas[data-rive-name] {
+  height: 60px;
+  display: inline-block;
+
+  &:not([data-showed]) {
+    width: 0;
+    margin-left: -0.5rem; // когда элемент скрыт, без этого сдвига ощущение, что между текстом два пробела стоит
+  }
+
+  &[data-showed] {
+    width: 60px;
+  }
+}
