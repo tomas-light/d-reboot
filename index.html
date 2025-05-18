@@ -265,11 +265,6 @@
       );
 
       animatedAvatarContainers.forEach(async (avatarsContainer) => {
-        /** @type HTMLCanvasElement[] */
-        const avatars = avatarsContainer.querySelectorAll(
-          '[data-animated-avatars]'
-        );
-
         /** @type HTMLCanvasElement */
         const counterRiveCanvas = avatarsContainer.querySelector(
           'canvas[data-rive-name=people-icon]'
