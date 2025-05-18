@@ -16,5 +16,6 @@
 
     /* Linting */
     "strict": true
-  }
+  },
+  "references": [{ "path": "./tsconfig.node.json" }]
 }

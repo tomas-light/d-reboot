@@ -32,6 +32,7 @@ jobs:
 
     - name: Build
       run: |
+        export BASE_URL_TO_PUBLIC="/d-reboot/"
         npm install
         npm run build
 
