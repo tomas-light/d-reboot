@@ -285,7 +285,7 @@
         canvas[data-rive-name]`
       );
 
-      await createScrollTriggerWithAnimations({
+      createScrollTriggerWithAnimations({
         riveMap,
         elementsToBind,
         changeState: {
@@ -295,25 +295,6 @@
             if (element.dataset.animatedAvatarsContainer == null) {
               return;
             }
-
-            // for (let index = 0; index < element.children.length; index++) {
-            //   const child = element.children[index];
-            //
-            //   child.setAttribute('data-showed', '');
-            //
-            //   if (child.dataset.riveName != null) {
-            //     const rive = riveMap.get(child.dataset.riveName);
-            //     if (rive) {
-            //       const { riveInstance, playIconShowing } = rive;
-            //       riveInstance.play(); // если анимация еще не была запущена
-            //       playIconShowing();
-            //     }
-            //   }
-            //
-            //   await new Promise((resolve) => {
-            //     setTimeout(resolve, 50);
-            //   });
-            // }
 
             for (const child of element.children) {
               child.setAttribute('data-showed', '');
