@@ -1,0 +1,10 @@
+[data-animated-characters] {
+  > .word {
+    opacity: 0.2;
+    transition: opacity linear 150ms;
+
+    &[data-showed] {
+      opacity: 1;
+    }
+  }
+}
