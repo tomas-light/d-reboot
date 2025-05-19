@@ -1,4 +1,4 @@
-@use './mediaVariables';
+@use '../mediaVariables';
 
 $avatarSize: 60px;
 $avatarSizeSM: 40px;
@@ -8,22 +8,11 @@ $avatarBorderWidth: 4px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  transition: margin-left 150ms;
   vertical-align: middle;
 
   &:not([data-showed]) {
-    width: 0;
     margin-left: -0.5rem; // когда элемент скрыт, без этого сдвига ощущение, что между текстом два пробела стоит
-
-    .avatar {
-      animation-name: hideAvatar;
-    }
-  }
-
-  &[data-showed] {
-    .avatar {
-      display: inline-flex;
-      animation-name: showAvatar;
-    }
   }
 
   canvas[data-rive-name='people-icon'] {
@@ -37,10 +26,22 @@ $avatarBorderWidth: 4px;
     overflow: clip;
     border: $avatarBorderWidth solid white;
     border-radius: 100%;
-    animation-duration: 200ms;
+    animation-duration: 150ms;
     animation-fill-mode: forwards;
     line-height: $avatarSize;
     transform-origin: 0 50%;
+    transition: width 150ms;
+
+    &:not([data-showed]) {
+      width: 0;
+      height: 0;
+      animation-name: hideAvatar;
+    }
+
+    &[data-showed] {
+      display: inline-flex;
+      animation-name: showAvatar;
+    }
 
     @media (width < mediaVariables.$smallWidth) {
       width: $avatarSizeSM;

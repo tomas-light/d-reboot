@@ -10,7 +10,7 @@
     <link href="/src/layout.scss" rel="stylesheet" />
     <!--    <link href="/src/flip-cards/v1/flippingCards.scss" rel="stylesheet" />-->
     <link href="/src/flip-cards/v2/flippingCards.scss" rel="stylesheet" />
-    <link href="/src/animatedAvatars.scss" rel="stylesheet" />
+    <link href="/src/scroll/animatedAvatars.scss" rel="stylesheet" />
     <link href="/src/rive-animations/rive.scss" rel="stylesheet" />
     <link href="/src/copy-email/copy-email.scss" rel="stylesheet" />
     <link href="/src/animate-words/words.scss" rel="stylesheet" />
@@ -261,19 +261,6 @@
     </script>
 
     <script type="module">
-      import { initGsapScroll } from './src/scroll.js';
-
-      initGsapScroll();
-    </script>
-
-    <script type="module">
-      // анимация появления слов
-      import { animateWordsAppearing } from './src/animate-words/animateWordsAppearing.ts';
-
-      animateWordsAppearing('[data-animated-characters]');
-    </script>
-
-    <script type="module">
       // анимация перелистывания карточек
       // import { animateCardsFlipping } from './src/flip-cards/v1/animateCardsFlipping.ts';
       import { animateCardsFlipping } from './src/flip-cards/v2/animateCardsFlipping.ts';
@@ -282,80 +269,121 @@
     </script>
 
     <script type="module">
-      // анимация появления аватарок
-      import { ScrollTrigger } from 'gsap/ScrollTrigger';
-      import { attachRivAnimation } from './src/rive-animations/attachRivAnimation.ts';
+      import { splitAnimatedTextByWords } from './src/animate-words/splitAnimatedTextByWords.ts';
+      import { attachAllRiveAnimations } from './src/rive-animations/attachAllRiveAnimations.ts';
+      import { createScrollTriggerWithAnimations } from './src/scroll/createScrollTriggerWithAnimations.js';
 
-      const animatedAvatarContainers = document.querySelectorAll(
-        '[data-animated-avatars-container]'
+      splitAnimatedTextByWords('[data-animated-characters]');
+
+      const riveMap = await attachAllRiveAnimations(
+        document.querySelectorAll('canvas[data-rive-name]')
       );
 
-      animatedAvatarContainers.forEach(async (avatarsContainer) => {
-        /** @type HTMLCanvasElement */
-        const counterRiveCanvas = avatarsContainer.querySelector(
-          'canvas[data-rive-name=people-icon]'
-        );
+      const elementsToBind = document.querySelectorAll(
+        `[data-animated-characters] .word,
+        [data-animated-avatars-container],
+        canvas[data-rive-name]`
+      );
 
-        const { riveInstance, playIconShowing, playIconHiding } =
-          await attachRivAnimation(
-            counterRiveCanvas,
-            counterRiveCanvas.dataset.riveName
-          );
+      await createScrollTriggerWithAnimations({
+        riveMap,
+        elementsToBind,
+        changeState: {
+          showElement: async (element) => {
+            element.setAttribute('data-showed', '');
 
-        ScrollTrigger.create({
-          trigger: avatarsContainer,
-          start: 'top 40%', // анимация запускается, когда группа символов достигает x% скрола сверху экрана
-          end: 'top 40%', // анимация завершается, когда группа символов достигает y% скрола сверху экрана
-          scrub: true, // привязка к позиции скрола, а не ко времени
-          onUpdate: (scrollTrigger) => {
-            const isScrollDown = scrollTrigger.direction > 0;
-            if (isScrollDown) {
-              avatarsContainer.setAttribute('data-showed', '');
-              counterRiveCanvas.setAttribute('data-showed', '');
-              riveInstance.play(); // если анимация еще не была запущена
-              playIconShowing();
-            } else {
-              playIconHiding();
-              avatarsContainer.removeAttribute('data-showed');
-              counterRiveCanvas.removeAttribute('data-showed');
+            if (element.dataset.animatedAvatarsContainer == null) {
+              return;
+            }
+
+            // for (let index = 0; index < element.children.length; index++) {
+            //   const child = element.children[index];
+            //
+            //   child.setAttribute('data-showed', '');
+            //
+            //   if (child.dataset.riveName != null) {
+            //     const rive = riveMap.get(child.dataset.riveName);
+            //     if (rive) {
+            //       const { riveInstance, playIconShowing } = rive;
+            //       riveInstance.play(); // если анимация еще не была запущена
+            //       playIconShowing();
+            //     }
+            //   }
+            //
+            //   await new Promise((resolve) => {
+            //     setTimeout(resolve, 50);
+            //   });
+            // }
+
+            for (const child of element.children) {
+              child.setAttribute('data-showed', '');
+
+              if (child.dataset.riveName != null) {
+                const rive = riveMap.get(child.dataset.riveName);
+                if (rive) {
+                  const { riveInstance, playIconShowing } = rive;
+                  riveInstance.play(); // если анимация еще не была запущена
+                  playIconShowing();
+                }
+              }
+
+              await new Promise((resolve) => {
+                setTimeout(resolve, 50);
+              });
             }
           },
-        });
-      });
-    </script>
+          hideElement: async (element) => {
+            if (element.dataset.animatedAvatarsContainer == null) {
+              element.removeAttribute('data-showed');
+              return;
+            }
 
-    <script type="module">
-      // riv анимации
-      import { ScrollTrigger } from 'gsap/ScrollTrigger';
-      import { attachRivAnimation } from './src/rive-animations/attachRivAnimation.ts';
+            for (const child of Array.from(element.children).reverse()) {
+              if (child.dataset.riveName != null) {
+                const rive = riveMap.get(child.dataset.riveName);
+                if (rive) {
+                  const { playIconHiding } = rive;
+                  await playIconHiding();
+                }
+              }
 
-      /** @type HTMLCanvasElement[] */
-      const rivCanvases = document.querySelectorAll('canvas[data-rive-name]');
-      rivCanvases.forEach(async (rivCanvas) => {
-        if (rivCanvas.dataset.riveName === 'people-icon') {
-          return;
-        }
+              child.removeAttribute('data-showed');
 
-        const { riveInstance, playIconShowing, playIconHiding } =
-          await attachRivAnimation(rivCanvas, rivCanvas.dataset.riveName);
+              await new Promise((resolve) => {
+                setTimeout(resolve, 50);
+              });
+            }
 
-        ScrollTrigger.create({
-          trigger: rivCanvas,
-          start: 'top 40%', // анимация запускается, когда группа символов достигает x% скрола сверху экрана
-          end: 'top 40%', // анимация завершается, когда группа символов достигает y% скрола сверху экрана
-          scrub: true, // привязка к позиции скрола, а не ко времени
-          onUpdate: (scrollTrigger) => {
-            const isScrollDown = scrollTrigger.direction > 0;
-            if (isScrollDown) {
-              rivCanvas.setAttribute('data-showed', '');
+            element.removeAttribute('data-showed');
+          },
+          showRive: (element) => {
+            if (element.dataset.riveName === 'people-icon') {
+              return;
+            }
+
+            element.setAttribute('data-showed', '');
+
+            const rive = riveMap.get(element.dataset.riveName);
+            if (rive) {
+              const { riveInstance, playIconShowing } = rive;
               riveInstance.play(); // если анимация еще не была запущена
               playIconShowing();
-            } else {
-              playIconHiding();
-              rivCanvas.removeAttribute('data-showed');
             }
           },
-        });
+          hideRive: async (element) => {
+            if (element.dataset.riveName === 'people-icon') {
+              return;
+            }
+
+            const rive = riveMap.get(element.dataset.riveName);
+            if (rive) {
+              const { playIconHiding } = rive;
+              await playIconHiding();
+            }
+
+            element.removeAttribute('data-showed');
+          },
+        },
       });
     </script>
   </body>
