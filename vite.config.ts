@@ -35,5 +35,8 @@ export default defineConfig(async (): Promise<UserConfig> => {
     server: {
       open: true,
     },
+    build: {
+      target: 'esnext',
+    },
   };
 });
