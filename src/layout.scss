@@ -1,5 +1,10 @@
 @use './mediaVariables';
 
+@mixin paragraphMargins {
+  margin-top: 0;
+  margin-bottom: 64px;
+}
+
 body {
   display: grid;
   grid-template-areas: 'header' 'main' 'footer';
@@ -12,6 +17,16 @@ body {
   transition:
     padding linear 100ms,
     row-gap linear 100ms;
+
+  @media (width > mediaVariables.$mediumWidth) {
+    .combined-paragraphs {
+      @include paragraphMargins;
+
+      p {
+        display: inline;
+      }
+    }
+  }
 
   @media (width < mediaVariables.$mediumWidth) {
     row-gap: 100px;
@@ -38,8 +53,8 @@ body {
     grid-area: main;
 
     p {
-      margin-top: 0;
-      margin-bottom: 64px;
+      @include paragraphMargins;
+
       font-size: 40px;
       font-weight: 500;
       line-height: 64px;
