@@ -7,30 +7,6 @@
       opacity: 1;
     }
   }
-
-  [data-ai-text] {
-    background-clip: text;
-    background-image: linear-gradient(
-      -97deg,
-      rgb(29 29 31),
-      rgb(29 29 31) 50%,
-      #f55600 0,
-      #f2416b,
-      #ba62fc,
-      #0090f7
-    );
-    background-position: 0% 0;
-    background-size: 200% 100%;
-    transition: color linear 150ms;
-
-    &[data-showed] {
-      color: transparent;
-
-      .word {
-        transition: none;
-      }
-    }
-  }
 }
 
 *:has(> [data-animated-horizontal-line]) {
