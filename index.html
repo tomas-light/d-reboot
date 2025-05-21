@@ -144,7 +144,8 @@
 
       <p>
         <span data-animated-characters>
-          Внедряем решения на базе искусственного интеллекта
+          Внедряем решения на базе
+          <span data-ai-text>искусственного интеллекта</span>
           <canvas data-rive-name="ai-icon"></canvas>
           для автоматизации, аналитики, мониторинга, диагностики и обеспечения
           кибербезопасности
@@ -153,14 +154,14 @@
 
       <p>
         <span data-animated-characters>
-          Наши технологии снижают издержки
-          <canvas data-rive-name="down-icon"></canvas>, повышают
-          производительность <canvas data-rive-name="up-icon"></canvas>,
-          обеспечивают безопасность данных
-          <canvas data-rive-name="lock-icon"></canvas>, способствуют
-          экологической устойчивости
-          <canvas data-rive-name="eco-icon"></canvas> и сокращению
-          энергопотребления <canvas data-rive-name="energy-icon"></canvas>.
+          Наши технологии снижают
+          <canvas data-rive-name="down-icon"></canvas> издержки, повышают
+          <canvas data-rive-name="up-icon"></canvas> производительность,
+          обеспечивают безопасность
+          <canvas data-rive-name="lock-icon"></canvas> данных, способствуют
+          экологической <canvas data-rive-name="eco-icon"></canvas> устойчивости
+          и сокращению энергопотребления
+          <canvas data-rive-name="energy-icon"></canvas>.
         </span>
       </p>
 
@@ -172,12 +173,11 @@
       </p>
 
       <p>
-        <span data-animated-characters>Обсудить проект</span>
+        <span data-animated-characters>
+          Обсудить проект
+          <span data-animated-horizontal-line></span>
+        </span>
         <canvas data-rive-name="discuss-icon"></canvas>
-        <!--<span
-      data-animated-horizontal-line
-      class="absolute bottom-0 left-0 h-1 w-[calc(100%-6px)] bg-black transition-all group-hover:w-0"
-    ></span>-->
       </p>
     </main>
 
@@ -282,6 +282,7 @@
       const elementsToBind = document.querySelectorAll(
         `[data-animated-characters] .word,
         [data-animated-avatars-container],
+        [data-animated-horizontal-line],
         canvas[data-rive-name]`
       );
 
@@ -296,6 +297,7 @@
               return;
             }
 
+            // для группы с аватарками надо одновременно запустить анимацию обычных аватарок и rive анимацию
             for (const child of element.children) {
               child.setAttribute('data-showed', '');
 
@@ -308,6 +310,7 @@
                 }
               }
 
+              // микро-пауза перед показом следующего элемента. Чтобы аватарки как бы друг за другом появлялись, а не сразу все
               await new Promise((resolve) => {
                 setTimeout(resolve, 50);
               });
@@ -319,6 +322,7 @@
               return;
             }
 
+            // для группы с аватарками надо одновременно остановить анимацию обычных аватарок и rive анимацию
             for (const child of Array.from(element.children).reverse()) {
               if (child.dataset.riveName != null) {
                 const rive = riveMap.get(child.dataset.riveName);
@@ -330,6 +334,7 @@
 
               child.removeAttribute('data-showed');
 
+              // микро-пауза перед скрытием следующего элемента. Чтобы аватарки как бы друг за другом пропадали, а не сразу все
               await new Promise((resolve) => {
                 setTimeout(resolve, 50);
               });
@@ -338,6 +343,7 @@
             element.removeAttribute('data-showed');
           },
           showRive: (element) => {
+            // показ этой анимации регулируется через показ всего блока с аватарками (потому что их надо запускать одновременно)
             if (element.dataset.riveName === 'people-icon') {
               return;
             }
@@ -349,9 +355,16 @@
               const { riveInstance, playIconShowing } = rive;
               riveInstance.play(); // если анимация еще не была запущена
               playIconShowing();
+
+              // меняем стиль текста ИИ после запуска rive анимации для ИИ
+              if (element.dataset.riveName === 'ai-icon') {
+                const aiTextElement = document.querySelector('[data-ai-text]');
+                aiTextElement?.setAttribute('data-showed', '');
+              }
             }
           },
           hideRive: async (element) => {
+            // показ этой анимации регулируется через показ всего блока с аватарками (потому что их надо запускать одновременно)
             if (element.dataset.riveName === 'people-icon') {
               return;
             }
@@ -360,6 +373,12 @@
             if (rive) {
               const { playIconHiding } = rive;
               await playIconHiding();
+
+              // меняем стиль текста ИИ после остановки rive анимации для ИИ
+              if (element.dataset.riveName === 'ai-icon') {
+                const aiTextElement = document.querySelector('[data-ai-text]');
+                aiTextElement?.removeAttribute('data-showed');
+              }
             }
 
             element.removeAttribute('data-showed');
