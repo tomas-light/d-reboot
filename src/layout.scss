@@ -47,6 +47,17 @@ body {
 
   > header {
     grid-area: header;
+
+    #logo {
+      width: 244px;
+      height: 28px;
+      transition: all 150ms;
+
+      @media (width < mediaVariables.$smallWidth) {
+        width: 122px;
+        height: 14px;
+      }
+    }
   }
 
   > main {
@@ -60,8 +71,8 @@ body {
       line-height: 64px;
 
       @media (width < 600px) {
-        font-size: 30px;
-        line-height: 1.6em;
+        font-size: 26px;
+        line-height: 1.5em;
       }
     }
   }
