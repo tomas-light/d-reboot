@@ -2,7 +2,7 @@
   "name": "d-reboot",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite dev --force",
     "build": "vite build",
     "preview": "vite preview"
   },
