@@ -2,7 +2,7 @@
   "name": "d-reboot",
   "type": "module",
   "scripts": {
-    "dev": "vite dev --force",
+    "dev": "vite dev",
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -21,6 +21,6 @@
     "stylelint-config-standard-scss": "14.0.0",
     "stylelint-order": "6.0.4",
     "typescript": "5.8.3",
-    "vite": "6.2.5"
+    "vite": "6.3.5"
   }
 }
