@@ -1,6 +1,7 @@
 $hoverColor: #006aff;
 
 #copy-email {
+  position: relative;
   transition: all 150ms;
 
   svg[data-icon='copy'],
