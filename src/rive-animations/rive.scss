@@ -35,7 +35,7 @@ span:has(> canvas[data-rive-name]) {
 
   &:not(:has(> canvas[data-rive-name][data-showed])) {
     width: 0;
-    margin-left: 0; // когда элемент скрыт, без этого сдвига ощущение, что между текстом два пробела стоит
+    margin-left: -0.5rem; // когда элемент скрыт, без этого сдвига ощущение, что между текстом два пробела стоит
     transition-delay: $hideDelay;
   }
 }
