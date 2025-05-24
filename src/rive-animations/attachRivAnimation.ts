@@ -19,7 +19,7 @@ export function attachRivAnimation(
     riveInstance: Rive;
     stateMachineInputs: StateMachineInput[];
     playIconShowing: VoidFunction;
-    playIconHiding: () => Promise<void>;
+    playIconHiding: VoidFunction;
   }>((resolve) => {
     const riveInstance = new Rive({
       src: `${envJson.BASE_URL_TO_PUBLIC}rive-animations/${rivName}.riv`,
@@ -47,10 +47,6 @@ export function attachRivAnimation(
           playIconHiding: () => {
             const stateMachine = stateMachineInputs?.[0];
             stateMachine.value = 1; // embedded behavior
-
-            return new Promise<void>((resolve) => {
-              setTimeout(resolve, 50);
-            });
           },
         });
       },

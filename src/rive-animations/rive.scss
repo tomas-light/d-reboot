@@ -3,25 +3,39 @@
 $size: 60px;
 $sizeSM: 40px;
 
-canvas[data-rive-name] {
-  height: $size;
+span:has(> canvas[data-rive-name]) {
+  $width: var(--rive-width, $size);
+  $widthSM: var(--rive-width-sm, $sizeSM);
+  $hideDelay: var(--rive-hide-delay, 150ms);
+
   display: inline-block;
-  vertical-align: middle;
+  transition:
+    width 150ms,
+    margin-left 150ms;
 
-  @media (width < mediaVariables.$smallWidth) {
-    height: $sizeSM;
-  }
-
-  &:not([data-showed]) {
-    width: 0;
-    margin-left: -0.5rem; // когда элемент скрыт, без этого сдвига ощущение, что между текстом два пробела стоит
-  }
-
-  &[data-showed] {
-    width: var(--rive-width, $size);
+  canvas {
+    width: $width;
+    height: $size;
+    display: inline-block;
+    vertical-align: middle;
 
     @media (width < mediaVariables.$smallWidth) {
-      width: var(--rive-width-sm, $sizeSM);
+      width: $widthSM;
+      height: $sizeSM;
     }
+  }
+
+  &:has(> canvas[data-rive-name][data-showed]) {
+    width: $width;
+
+    @media (width < mediaVariables.$smallWidth) {
+      width: $widthSM;
+    }
+  }
+
+  &:not(:has(> canvas[data-rive-name][data-showed])) {
+    width: 0;
+    margin-left: -0.5rem; // когда элемент скрыт, без этого сдвига ощущение, что между текстом два пробела стоит
+    transition-delay: $hideDelay;
   }
 }

@@ -66,10 +66,15 @@
         <p>
           <span data-animated-characters>We are a team</span>
 
-          <canvas
-            data-rive-name="people-icon"
-            style="--rive-width: 170px; --rive-width-sm: 116px"
-          ></canvas>
+          <span
+            style="
+              --rive-width: 170px;
+              --rive-width-sm: 116px;
+              --rive-hide-delay: 300ms;
+            "
+          >
+            <canvas data-rive-name="people-icon"></canvas>
+          </span>
 
           <span data-animated-characters>
             of experts with years of experience in developing digital solutions
@@ -82,7 +87,9 @@
       <p>
         <span data-animated-characters>
           We implement AI-based solutions
-          <canvas data-rive-name="ai-icon"></canvas>
+          <span>
+            <canvas data-rive-name="ai-icon"></canvas>
+          </span>
           for automation, analytics, monitoring, diagnostics, and cybersecurity.
         </span>
       </p>
@@ -90,11 +97,20 @@
       <p>
         <span data-animated-characters>
           Our technologies reduce costs
-          <canvas data-rive-name="down-icon"></canvas>, increase productivity
-          <canvas data-rive-name="up-icon"></canvas>, ensure data security
-          <canvas data-rive-name="lock-icon"></canvas>, support environmental
-          sustainability <canvas data-rive-name="eco-icon"></canvas> and lower
-          energy consumption <canvas data-rive-name="energy-icon"></canvas>.
+
+          <span> <canvas data-rive-name="down-icon"></canvas> </span>, increase
+          productivity
+
+          <span> <canvas data-rive-name="up-icon"></canvas> </span>, ensure data
+          security
+
+          <span> <canvas data-rive-name="lock-icon"></canvas> </span>, support
+          environmental sustainability
+          <span>
+            <canvas data-rive-name="eco-icon"></canvas>
+          </span>
+          and lower energy consumption
+          <span> <canvas data-rive-name="energy-icon"></canvas> </span>.
         </span>
       </p>
 
@@ -110,7 +126,9 @@
           Book a call
           <span data-animated-horizontal-line></span>
         </span>
-        <canvas data-rive-name="discuss-icon"></canvas>
+        <span>
+          <canvas data-rive-name="discuss-icon"></canvas>
+        </span>
       </p>
     </main>
 
@@ -239,7 +257,7 @@
             const rive = riveMap.get(element.dataset.riveName);
             if (rive) {
               const { playIconHiding } = rive;
-              await playIconHiding();
+              playIconHiding();
             }
 
             element.removeAttribute('data-showed');

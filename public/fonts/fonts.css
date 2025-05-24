@@ -162,3 +162,17 @@
     ss08: 8;
   }
 }
+
+* {
+  font-feature-settings: 'liga', 'kern';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+  text-rendering: optimizeLegibility;
+  text-size-adjust: none;
+}
+
+html {
+  font-size: 100%;
+  text-size-adjust: 100%;
+}
