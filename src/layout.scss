@@ -11,12 +11,9 @@ body {
   row-gap: 200px;
   align-items: center;
   justify-content: center;
-  padding: 200px 20px 100px;
+  padding: 80px 20px 50px;
   color: #383838;
   font-family: Inter, serif;
-  transition:
-    padding linear 100ms,
-    row-gap linear 100ms;
 
   @media (width > mediaVariables.$mediumWidth) {
     .combined-paragraphs {
