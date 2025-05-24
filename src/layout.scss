@@ -49,11 +49,6 @@ body {
       width: 36px;
       height: 34px;
       transition: all 150ms;
-
-      @media (width < mediaVariables.$smallWidth) {
-        width: 122px;
-        height: 14px;
-      }
     }
   }
 

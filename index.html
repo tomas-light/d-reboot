@@ -9,7 +9,6 @@
     <link href="/fonts/fonts.css" rel="stylesheet" />
     <link href="/src/layout.scss" rel="stylesheet" />
     <link href="/src/flip-cards/v2/flippingCards.scss" rel="stylesheet" />
-    <link href="/src/scroll/animatedAvatars.scss" rel="stylesheet" />
     <link href="/src/rive-animations/rive.scss" rel="stylesheet" />
     <link href="/src/copy-email/copy-email.scss" rel="stylesheet" />
     <link href="/src/animate-words/words.scss" rel="stylesheet" />
@@ -17,8 +16,19 @@
 
   <body>
     <header>
-      <svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M12 0L2 18H8.88889L0 34H23C27.9706 34 32 29.9706 32 25C32 22.1007 30.629 19.5216 28.5 17.8756C32.7566 17.1614 36 13.4595 36 9C36 4.02944 31.9706 0 27 0H12Z" fill="#383838"/>
+      <svg
+        width="36"
+        height="34"
+        viewBox="0 0 36 34"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M12 0L2 18H8.88889L0 34H23C27.9706 34 32 29.9706 32 25C32 22.1007 30.629 19.5216 28.5 17.8756C32.7566 17.1614 36 13.4595 36 9C36 4.02944 31.9706 0 27 0H12Z"
+          fill="#383838"
+        />
       </svg>
     </header>
 
@@ -26,7 +36,8 @@
       <section class="combined-paragraphs">
         <p>
           <span>
-            We empower industrial and government systems to become digital leaders.
+            We empower industrial and government systems to become digital
+            leaders.
           </span>
 
           <span data-flipping-cards>
@@ -55,20 +66,15 @@
         <p>
           <span data-animated-characters>We are a team</span>
 
-          <span data-animated-avatars-container>
-            <span data-animated-avatars class="avatar">
-              <img src="/images/avatars/dog-1.png" alt="dog-1" />
-            </span>
-
-            <span data-animated-avatars class="avatar">
-              <img src="/images/avatars/dog-2.png" alt="dog-2" />
-            </span>
-
-            <canvas data-rive-name="people-icon"></canvas>
-          </span>
+          <canvas
+            data-rive-name="people-icon"
+            style="--rive-width: 170px; --rive-width-sm: 116px"
+          ></canvas>
 
           <span data-animated-characters>
-            of experts with years of experience in developing digital solutions that help businesses efficiently manage their technological infrastructure.
+            of experts with years of experience in developing digital solutions
+            that help businesses efficiently manage their technological
+            infrastructure.
           </span>
         </p>
       </section>
@@ -84,16 +90,18 @@
       <p>
         <span data-animated-characters>
           Our technologies reduce costs
-          <canvas data-rive-name="down-icon"></canvas>, increase productivity <canvas data-rive-name="up-icon"></canvas>,
-          ensure data security
-          <canvas data-rive-name="lock-icon"></canvas>, support environmental sustainability
-          <canvas data-rive-name="eco-icon"></canvas> and lower energy consumption <canvas data-rive-name="energy-icon"></canvas>.
+          <canvas data-rive-name="down-icon"></canvas>, increase productivity
+          <canvas data-rive-name="up-icon"></canvas>, ensure data security
+          <canvas data-rive-name="lock-icon"></canvas>, support environmental
+          sustainability <canvas data-rive-name="eco-icon"></canvas> and lower
+          energy consumption <canvas data-rive-name="energy-icon"></canvas>.
         </span>
       </p>
 
       <p>
         <span data-animated-characters>
-         Your team should focus on strategic goals — we’ll take care of everything else.
+          Your team should focus on strategic goals — we’ll take care of
+          everything else.
         </span>
       </p>
 
@@ -108,7 +116,13 @@
 
     <footer>
       <p>
-        Instead, we design custom systems and software products tailored specifically to your needs. Our approach is driven by the real priorities of your business — whether it’s optimizing production processes, reducing energy consumption and operational costs, or strengthening data protection and cybersecurity. This ensures maximum efficiency and cost-effectiveness exactly where it matters most for your business.
+        Instead, we design custom systems and software products tailored
+        specifically to your needs. Our approach is driven by the real
+        priorities of your business — whether it’s optimizing production
+        processes, reducing energy consumption and operational costs, or
+        strengthening data protection and cybersecurity. This ensures maximum
+        efficiency and cost-effectiveness exactly where it matters most for your
+        business.
       </p>
 
       <p>
@@ -197,7 +211,6 @@
 
       const elementsToBind = document.querySelectorAll(
         `[data-animated-characters] .word,
-        [data-animated-avatars-container],
         [data-animated-horizontal-line],
         canvas[data-rive-name]`
       );
@@ -208,62 +221,11 @@
         changeState: {
           showElement: async (element) => {
             element.setAttribute('data-showed', '');
-
-            if (element.dataset.animatedAvatarsContainer == null) {
-              return;
-            }
-
-            // для группы с аватарками надо одновременно запустить анимацию обычных аватарок и rive анимацию
-            for (const child of element.children) {
-              child.setAttribute('data-showed', '');
-
-              if (child.dataset.riveName != null) {
-                const rive = riveMap.get(child.dataset.riveName);
-                if (rive) {
-                  const { riveInstance, playIconShowing } = rive;
-                  riveInstance.play(); // если анимация еще не была запущена
-                  playIconShowing();
-                }
-              }
-
-              // микро-пауза перед показом следующего элемента. Чтобы аватарки как бы друг за другом появлялись, а не сразу все
-              await new Promise((resolve) => {
-                setTimeout(resolve, 50);
-              });
-            }
           },
           hideElement: async (element) => {
-            if (element.dataset.animatedAvatarsContainer == null) {
-              element.removeAttribute('data-showed');
-              return;
-            }
-
-            // для группы с аватарками надо одновременно остановить анимацию обычных аватарок и rive анимацию
-            for (const child of Array.from(element.children).reverse()) {
-              if (child.dataset.riveName != null) {
-                const rive = riveMap.get(child.dataset.riveName);
-                if (rive) {
-                  const { playIconHiding } = rive;
-                  await playIconHiding();
-                }
-              }
-
-              child.removeAttribute('data-showed');
-
-              // микро-пауза перед скрытием следующего элемента. Чтобы аватарки как бы друг за другом пропадали, а не сразу все
-              await new Promise((resolve) => {
-                setTimeout(resolve, 50);
-              });
-            }
-
             element.removeAttribute('data-showed');
           },
           showRive: (element) => {
-            // показ этой анимации регулируется через показ всего блока с аватарками (потому что их надо запускать одновременно)
-            if (element.dataset.riveName === 'people-icon') {
-              return;
-            }
-
             element.setAttribute('data-showed', '');
 
             const rive = riveMap.get(element.dataset.riveName);
@@ -280,11 +242,6 @@
             }
           },
           hideRive: async (element) => {
-            // показ этой анимации регулируется через показ всего блока с аватарками (потому что их надо запускать одновременно)
-            if (element.dataset.riveName === 'people-icon') {
-              return;
-            }
-
             const rive = riveMap.get(element.dataset.riveName);
             if (rive) {
               const { playIconHiding } = rive;

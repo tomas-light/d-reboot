@@ -18,10 +18,10 @@ canvas[data-rive-name] {
   }
 
   &[data-showed] {
-    width: $size;
+    width: var(--rive-width, $size);
 
     @media (width < mediaVariables.$smallWidth) {
-      width: $sizeSM;
+      width: var(--rive-width-sm, $sizeSM);
     }
   }
 }

@@ -2,3 +2,4 @@
 /node_modules/
 /.idea/
 /src/env.json
+**/*.DS_Store
