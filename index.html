@@ -233,12 +233,6 @@
               const { riveInstance, playIconShowing } = rive;
               riveInstance.play(); // если анимация еще не была запущена
               playIconShowing();
-
-              // меняем стиль текста ИИ после запуска rive анимации для ИИ
-              if (element.dataset.riveName === 'ai-icon') {
-                const aiTextElement = document.querySelector('[data-ai-text]');
-                aiTextElement?.setAttribute('data-showed', '');
-              }
             }
           },
           hideRive: async (element) => {
@@ -246,12 +240,6 @@
             if (rive) {
               const { playIconHiding } = rive;
               await playIconHiding();
-
-              // меняем стиль текста ИИ после остановки rive анимации для ИИ
-              if (element.dataset.riveName === 'ai-icon') {
-                const aiTextElement = document.querySelector('[data-ai-text]');
-                aiTextElement?.removeAttribute('data-showed');
-              }
             }
 
             element.removeAttribute('data-showed');
