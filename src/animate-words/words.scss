@@ -1,6 +1,6 @@
 [data-animated-characters] {
   .word {
-    opacity: 0.2;
+    opacity: 0.25;
     transition: opacity cubic-bezier(0.4, 0, 0.2, 1) 500ms;
 
     &[data-showed] {
