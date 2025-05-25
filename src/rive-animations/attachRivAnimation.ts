@@ -11,10 +11,7 @@ import envJson from '../env.json';
 // same hardcoded name in all animations (the name is embedded in files)
 const RIVE_ANIMATIONS_STATE_MACHINE_NAME = 'State Machine 1';
 
-export function attachRivAnimation(
-  canvas: HTMLCanvasElement,
-  rivName: string | undefined
-) {
+export function attachRivAnimation(canvas: HTMLCanvasElement, rivName: string) {
   return new Promise<{
     riveInstance: Rive;
     stateMachineInputs: StateMachineInput[];

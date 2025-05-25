@@ -20,10 +20,29 @@ export async function attachAllRiveAnimations(
       rivCanvas.dataset.riveName
     );
 
+    if (riveMap.has(rivCanvas.dataset.riveName)) {
+      rivCanvas.dataset.riveName = makeUniqueName(
+        riveMap,
+        rivCanvas.dataset.riveName
+      );
+    }
+
     riveMap.set(rivCanvas.dataset.riveName, rive);
   });
 
   await Promise.allSettled(promises);
 
   return riveMap;
+}
+
+function makeUniqueName(
+  map: Map<string, unknown>,
+  name: string,
+  index = 0
+): string {
+  const uniqueName = (name += `_${index}`);
+  if (map.has(uniqueName)) {
+    return makeUniqueName(map, name, index + 1);
+  }
+  return uniqueName;
 }
