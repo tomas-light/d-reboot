@@ -4,7 +4,7 @@
   font-family: Hoves;
   font-style: normal;
   font-weight: 400;
-  src: url('./TTHoves-Regular.woff2') format('woff2');
+  src: url('./Hoves-Regular.woff2') format('woff2');
 }
 
 @font-face {
@@ -12,5 +12,23 @@
   font-family: Hoves;
   font-style: normal;
   font-weight: 500;
-  src: url('./TTHoves-Medium.woff2') format('woff2');
+  src: url('./Hoves-Medium.woff2') format('woff2');
+}
+
+* {
+  font-feature-settings: 'liga', 'kern';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+  text-rendering: optimizeLegibility;
+  text-size-adjust: none;
+}
+
+html {
+  font-size: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  font-family: Hoves, system-ui, sans-serif;
 }
