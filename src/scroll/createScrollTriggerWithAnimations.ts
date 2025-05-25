@@ -42,8 +42,8 @@ export async function createScrollTriggerWithAnimations(options: {
         const firstElement = elements[0];
         const offsetTop = firstElement.offsetTop;
 
-        const start = `top ${offsetTop}`;
-        const end = `bottom ${offsetTop}`;
+        const start = `top ${offsetTop}px`;
+        const end = `bottom ${offsetTop}px`;
 
         if (!trigger) {
           trigger = ScrollTrigger.create({

@@ -8,16 +8,21 @@ span:has(> canvas[data-rive-name]) {
   $widthSM: var(--rive-width-sm, $sizeSM);
   $hideDelay: var(--rive-hide-delay, 150ms);
 
+  height: $size;
   display: inline-block;
   transition:
     width 150ms,
     margin-left 150ms;
+  vertical-align: bottom;
+
+  @media (width < mediaVariables.$smallWidth) {
+    height: $sizeSM;
+  }
 
   canvas {
     width: $width;
     height: $size;
     display: inline-block;
-    vertical-align: middle;
 
     @media (width < mediaVariables.$smallWidth) {
       width: $widthSM;
@@ -27,6 +32,7 @@ span:has(> canvas[data-rive-name]) {
 
   &:has(> canvas[data-rive-name][data-showed]) {
     width: $width;
+    margin-left: 0.25em; // виртуальный пробел перед ривом
 
     @media (width < mediaVariables.$smallWidth) {
       width: $widthSM;
@@ -35,7 +41,16 @@ span:has(> canvas[data-rive-name]) {
 
   &:not(:has(> canvas[data-rive-name][data-showed])) {
     width: 0;
-    margin-left: -0.5rem; // когда элемент скрыт, без этого сдвига ощущение, что между текстом два пробела стоит
+    animation-delay: $hideDelay;
+    animation-duration: 0s;
+    animation-fill-mode: forwards;
+    animation-name: displayNone;
     transition-delay: $hideDelay;
+  }
+}
+
+@keyframes displayNone {
+  to {
+    display: none;
   }
 }

@@ -6,6 +6,7 @@ export function splitAnimatedTextByWords(textSelector: string) {
   ) as HTMLElement[];
 
   animatedCharacters.forEach(
-    (spanElement) => new SplitType(spanElement, { types: 'words' })
+    (spanElement) =>
+      new SplitType(spanElement, { types: 'words', tagName: 'span' })
   );
 }
