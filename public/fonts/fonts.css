@@ -1,96 +1,16 @@
 /* static fonts */
 @font-face {
-  font-family: Inter;
+  font-display: swap;
+  font-family: Hoves;
   font-style: normal;
   font-weight: 400;
   src: url('./TTHoves-Regular.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: Inter;
+  font-display: swap;
+  font-family: Hoves;
   font-style: normal;
   font-weight: 500;
   src: url('./TTHoves-Medium.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: Inter;
-  font-style: normal;
-  font-weight: 600;
-  src: url('./Inter-SemiBold.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: Inter;
-  font-style: normal;
-  font-weight: 700;
-  src: url('./Inter-Bold.woff2') format('woff2');
-}
-
-@font-feature-values Inter {
-  @character-variant {
-    alt-1: 1; /* Alternate one */
-    alt-3: 9; /* Flat-top three */
-    alt-double-s: 7; /* Alternate German double s */
-    compact-lc-f: 12; /* Compact f */
-    compact-lc-t: 13; /* Compact t */
-    cv01: 1;
-    cv02: 2;
-    cv03: 3;
-    cv04: 4;
-    cv05: 5;
-    cv06: 6;
-    cv07: 7;
-    cv08: 8;
-    cv09: 9;
-    cv10: 10;
-    cv11: 11;
-    cv12: 12;
-    cv13: 13;
-    lc-l-with-tail: 5; /* Lower-case L with tail */
-    open-4: 2; /* Open four */
-    open-6: 3; /* Open six */
-    open-9: 4; /* Open nine */
-    simplified-u: 6; /* Simplified u */
-    single-story-a: 11; /* Single-story a */
-    uc-g-with-spur: 10; /* Capital G with spur */
-    uc-i-with-serif: 8; /* Upper-case i with serif */
-  }
-
-  @styleset {
-    circled-characters: 5; /* Circled characters */
-    disambiguation: 2; /* Disambiguation (with zero) */
-    disambiguation-except-zero: 4; /* Disambiguation (no zero) */
-    open-digits: 1; /* Open digits */
-    round-quotes-and-commas: 3; /* Round quotes &amp; commas */
-    square-punctuation: 7; /* Square punctuation */
-    square-quotes: 8; /* Square quotes */
-    squared-characters: 6; /* Squared characters */
-    ss01: 1;
-    ss02: 2;
-    ss03: 3;
-    ss04: 4;
-    ss05: 5;
-    ss06: 6;
-    ss07: 7;
-    ss08: 8;
-  }
-}
-
-* {
-  font-feature-settings: 'liga', 'kern';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-tap-highlight-color: transparent;
-  text-rendering: optimizeLegibility;
-  text-size-adjust: none;
-}
-
-html {
-  font-size: 100%;
-  text-size-adjust: 100%;
-}
-
-body {
-  font-family: Inter, system-ui, sans-serif;
 }
