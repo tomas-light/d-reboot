@@ -15,8 +15,8 @@ function animateCardFlipping(cardContainer: Element) {
   }, 2000);
 
   function setCardOrders() {
-    const cards = cardContainer.querySelectorAll('.card');
-    cards.forEach((card, index) => {
+    const cards = Array.from(cardContainer.querySelectorAll('.card'));
+    cards.reverse().forEach((card, index) => {
       card.setAttribute('data-order', (index + 1).toString());
     });
   }
@@ -38,7 +38,7 @@ function animateCardFlipping(cardContainer: Element) {
     const card = cardContainer.querySelector('.card[data-order="1"]');
     if (card != null) {
       cardContainer.removeChild(card);
-      cardContainer.appendChild(card);
+      cardContainer.prepend(card);
     }
   }
 }

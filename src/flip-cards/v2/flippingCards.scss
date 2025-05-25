@@ -2,8 +2,6 @@
 
 $size: 60px;
 $sizeSM: 40px;
-$nextZIndex: 1;
-$currentZIndex: $nextZIndex + 1;
 $borderRadius: 16px;
 $borderRadiusSM: 8px;
 $borderRadiusCovered: 20px;
@@ -52,10 +50,10 @@ $borderRadiusCoveredSM: 12px;
   }
 
   &:after {
-    @include pseudoCard;
-
     border-radius: $borderRadius;
     background-color: rgb(194 194 194);
+
+    @include pseudoCard;
 
     @media (width < mediaVariables.$smallWidth) {
       border-radius: $borderRadiusSM;
@@ -75,10 +73,10 @@ $borderRadiusCoveredSM: 12px;
   }
 
   &:after {
-    @include pseudoCard;
-
     border-radius: $borderRadius;
     background-color: rgb(245 245 245);
+
+    @include pseudoCard;
 
     @media (width < mediaVariables.$smallWidth) {
       border-radius: $borderRadiusSM;
@@ -120,14 +118,10 @@ $borderRadiusCoveredSM: 12px;
 
     &[data-order='1'] {
       @include firstCard;
-
-      z-index: $currentZIndex;
     }
 
     &[data-order='2'] {
       @include secondCard;
-
-      z-index: $nextZIndex;
     }
 
     &[data-order='3'] {
