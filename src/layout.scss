@@ -38,8 +38,8 @@ body {
   }
 
   @media (width < mediaVariables.$smallWidth) {
-    row-gap: 50px;
-    padding: 50px 20px;
+    row-gap: 100px;
+    padding: 50px 30px;
   }
 
   > header,
