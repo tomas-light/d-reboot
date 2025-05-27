@@ -1,10 +1,11 @@
 import { gsap } from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 
-type ChangeElementState = (element: HTMLElement) => void;
+type ChangeElementState = (element: Element) => void;
 
 export async function createScrollTriggerWithAnimations(options: {
-  elementsToBind: NodeListOf<Element>;
+  elementsSelector: string;
+  lastElementSelector: string;
   changeState: {
     showElement: ChangeElementState;
     hideElement: ChangeElementState;
@@ -12,12 +13,15 @@ export async function createScrollTriggerWithAnimations(options: {
     hideRive: ChangeElementState;
   };
 }) {
-  const { elementsToBind, changeState } = options;
+  const { elementsSelector, lastElementSelector, changeState } = options;
 
   gsap.registerPlugin(ScrollTrigger);
 
   const { getStateModify, initializeElementsState } =
     createElementsState(changeState);
+
+  const elementsToBind = document.querySelectorAll(elementsSelector);
+  const elementsCount = elementsToBind.length;
   initializeElementsState(Array.from(elementsToBind) as HTMLElement[]);
 
   let trigger: ScrollTrigger | undefined = undefined;
@@ -38,23 +42,35 @@ export async function createScrollTriggerWithAnimations(options: {
 
         lastWidth = width;
 
-        const elements = Array.from(elementsToBind) as HTMLElement[];
-        const firstElement = elements[0];
-        const offsetTop = firstElement.offsetTop;
+        const elements = document.querySelectorAll(elementsSelector);
 
-        const start = `top ${offsetTop}px`;
-        const end = `bottom ${offsetTop}px`;
+        const currentScrollY = window.scrollY;
+
+        const firstElement = elements[0] as HTMLElement;
+        const lastElement = elements[elements.length - 1] as HTMLElement;
+
+        firstElement.scrollIntoView({ block: 'end' });
+        const firstElementViewportTop =
+          firstElement.getBoundingClientRect().top;
+
+        lastElement.scrollIntoView({ block: 'start' });
+        const lastElementViewportTop = lastElement.getBoundingClientRect().top;
+
+        window.scrollTo({ top: currentScrollY });
+
+        const start = `top ${firstElementViewportTop}px`;
+        const end = `bottom ${lastElementViewportTop}px`;
 
         if (!trigger) {
-          trigger = ScrollTrigger.create({
+          trigger = new ScrollTrigger({
             start,
             end,
-            trigger: elementsToBind,
-            endTrigger: elementsToBind[elementsToBind.length - 1],
+            trigger: elementsSelector,
+            endTrigger: lastElementSelector,
             scrub: true, // привязка к позиции скрола, а не ко времени
             onUpdate: (scrollTrigger) => {
               const closestIndex = Math.trunc(
-                scrollTrigger.progress * elementsToBind.length
+                scrollTrigger.progress * elementsCount
               );
               updateElementsState(closestIndex);
             },
@@ -64,16 +80,14 @@ export async function createScrollTriggerWithAnimations(options: {
           trigger.vars.end = end;
           trigger.refresh();
 
-          const closestIndex = Math.trunc(
-            trigger.progress * elementsToBind.length
-          );
+          const closestIndex = Math.trunc(trigger.progress * elementsCount);
           updateElementsState(closestIndex);
         }
       });
     });
 
     function updateElementsState(elementIndex: number) {
-      const elements = Array.from(elementsToBind) as HTMLElement[];
+      const elements = document.querySelectorAll(elementsSelector);
 
       for (let index = 0; index < elements.length; index++) {
         const state = getStateModify(elements, index);
@@ -129,7 +143,7 @@ function createElementsState(changeState: {
     }
   }
 
-  function getStateModify(elements: HTMLElement[], elementIndex: number) {
+  function getStateModify(elements: NodeListOf<Element>, elementIndex: number) {
     if (
       showedElementIndexes.has(elementIndex) ||
       hiddenElementIndexes.has(elementIndex)

@@ -143,6 +143,8 @@
           <canvas data-rive-name="discuss-icon"></canvas>
         </span>
       </p>
+
+      <span data-last-element-to-scroll></span>
     </main>
 
     <footer>
@@ -240,14 +242,10 @@
         document.querySelectorAll('canvas[data-rive-name]')
       );
 
-      const elementsToBind = document.querySelectorAll(
-        `[data-animated-characters] .word,
-        [data-animated-horizontal-line],
-        canvas[data-rive-name]`
-      );
-
       await createScrollTriggerWithAnimations({
-        elementsToBind,
+        elementsSelector:
+          '[data-animated-characters] .word, [data-animated-horizontal-line], canvas[data-rive-name], [data-last-element-to-scroll]',
+        lastElementSelector: '[data-last-element-to-scroll]',
         changeState: {
           showElement: async (element) => {
             element.setAttribute('data-showed', '');
