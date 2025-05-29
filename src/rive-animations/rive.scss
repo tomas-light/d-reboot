@@ -41,16 +41,17 @@ span:has(> canvas[data-rive-name]) {
 
   &:not(:has(> canvas[data-rive-name][data-showed])) {
     width: 0;
-    animation-delay: $hideDelay;
-    animation-duration: 0s;
-    animation-fill-mode: forwards;
-    animation-name: displayNone;
+
+    //animation-delay: $hideDelay;
+    //animation-duration: 0s;
+    //animation-fill-mode: forwards;
+    //animation-name: displayNone;
     transition-delay: $hideDelay;
   }
 }
 
-@keyframes displayNone {
-  to {
-    display: none;
-  }
-}
+//@keyframes displayNone {
+//  to {
+//    display: none;
+//  }
+//}
