@@ -13,6 +13,16 @@ body {
   scrollbar-width: thin;
 }
 
+::-moz-selection {
+    color: #fff;
+    background:#383838
+}
+
+::selection {
+    color: #fff;
+    background:#383838
+}
+
 body {
   display: grid;
   grid-template-areas: 'header' 'main' 'footer';

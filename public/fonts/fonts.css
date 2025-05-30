@@ -32,13 +32,3 @@ html {
 body {
   font-family: Hoves, system-ui, sans-serif;
 }
-
-::-moz-selection {
-    color: #fff;
-    background:#383838
-}
-
-::selection {
-    color: #fff;
-    background:#383838
-}
