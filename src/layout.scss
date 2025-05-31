@@ -13,14 +13,14 @@ body {
   scrollbar-width: thin;
 }
 
-::-moz-selection {
-    color: #fff;
-    background:#383838
+::selection {
+  background: #383838;
+  color: #fff;
 }
 
 ::selection {
-    color: #fff;
-    background:#383838
+  background: #383838;
+  color: #fff;
 }
 
 body {
@@ -32,15 +32,15 @@ body {
   padding: 80px 20px 50px;
   color: #383838;
 
-  @media (width > mediaVariables.$mediumWidth) {
-    .combined-paragraphs {
-      @include paragraphMargins;
-
-      p {
-        display: inline;
-      }
-    }
-  }
+  //@media (width > mediaVariables.$mediumWidth) {
+  //  .combined-paragraphs {
+  //    @include paragraphMargins;
+  //
+  //    p {
+  //      display: inline;
+  //    }
+  //  }
+  //}
 
   @media (width < mediaVariables.$mediumWidth) {
     row-gap: 100px;
@@ -92,7 +92,7 @@ body {
     p {
       margin-top: 0;
       margin-bottom: 16px;
-      color: #CDCDCD;
+      color: #cdcdcd;
       font-size: 16px;
       font-weight: 400;
       line-height: 24px;
