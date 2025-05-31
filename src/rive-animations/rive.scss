@@ -6,7 +6,6 @@ $sizeSM: 40px;
 span:has(> canvas[data-rive]:not([data-static])) {
   $width: var(--rive-width, $size);
   $widthSM: var(--rive-width-sm, $sizeSM);
-  $hideDelay: var(--rive-hide-delay, 150ms);
 
   height: $size;
   display: inline-block;
@@ -43,6 +42,5 @@ span:has(> canvas[data-rive]:not([data-static])) {
 
   &:not(:has(> canvas[data-showed])) {
     width: 0;
-    transition-delay: $hideDelay;
   }
 }

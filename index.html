@@ -97,13 +97,13 @@
 
         <p>
           <span data-animated-characters>Our experienced team</span
-          ><span
-            style="
-              --rive-width: 170px;
-              --rive-width-sm: 113px;
-              --rive-hide-delay: 300ms;
-            "
-            ><canvas data-rive data-name="people-icon"></canvas> </span
+          ><span style="--rive-width: 170px; --rive-width-sm: 113px"
+            ><canvas
+              data-rive
+              data-name="people-icon"
+              data-show-delay-ms="50"
+              data-hide-delay-ms="300"
+            ></canvas> </span
           ><span data-animated-characters>
             delivers custom digital solutions that make your technology
             infrastructure more efficient, reliable, and aligned with your
@@ -257,6 +257,22 @@
         isStatic: (canvas) => canvas.dataset.static != null,
       });
 
+      const riveTimersMap = new Map();
+      function addTimer(riveName, callback, showDelayMs) {
+        const timer = setTimeout(() => {
+          callback();
+        }, showDelayMs);
+
+        riveTimersMap.set(riveName, timer);
+      }
+      function removeTimer(riveName) {
+        const timer = riveTimersMap.get(riveName);
+        if (timer) {
+          clearTimeout(timer);
+          riveTimersMap.delete(riveName);
+        }
+      }
+
       await createScrollTriggerWithAnimations({
         elementsSelector:
           '[data-animated-characters] .word, [data-animated-horizontal-line], canvas[data-rive]:not([data-static]), [data-last-element-to-scroll]',
@@ -267,25 +283,55 @@
 
             const { dataset } = element;
             const riveName = dataset && dataset.rive != null && dataset.name;
+            const showDelayMs = dataset && dataset.showDelayMs;
+
             if (riveName) {
               const rive = riveMap.get(riveName);
               if (rive) {
+                removeTimer(riveName);
                 await rive.attachIfNeeded();
-                rive.show();
+
+                if (showDelayMs) {
+                  addTimer(
+                    riveName,
+                    () => {
+                      rive.show();
+                    },
+                    showDelayMs
+                  );
+                } else {
+                  rive.show();
+                }
               }
             }
           },
           hideElement: (element) => {
             const { dataset } = element;
             const riveName = dataset && dataset.rive != null && dataset.name;
-            if (riveName) {
-              const rive = riveMap.get(riveName);
-              if (rive) {
-                rive.hide();
-              }
+            const hideDelayMs = dataset && dataset.hideDelayMs;
+
+            if (!riveName) {
+              element.removeAttribute('data-showed');
+              return;
             }
 
-            element.removeAttribute('data-showed');
+            const rive = riveMap.get(riveName);
+            if (rive) {
+              removeTimer(riveName);
+              rive.hide();
+
+              if (hideDelayMs) {
+                addTimer(
+                  riveName,
+                  () => {
+                    element.removeAttribute('data-showed');
+                  },
+                  hideDelayMs
+                );
+              } else {
+                element.removeAttribute('data-showed');
+              }
+            }
           },
         },
       });
