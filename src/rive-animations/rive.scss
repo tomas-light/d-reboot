@@ -12,7 +12,8 @@ span:has(> canvas[data-rive]:not([data-static])) {
   display: inline-block;
   transition:
     width 150ms,
-    margin-left 150ms;
+    margin-left 150ms,
+    margin-right 150ms;
   vertical-align: bottom;
 
   @media (width < mediaVariables.$smallWidth) {
@@ -32,6 +33,7 @@ span:has(> canvas[data-rive]:not([data-static])) {
 
   &:has(> canvas[data-showed]) {
     width: $width;
+    margin-right: 2px; // дима попросил добавить расстояние до запятых дальше
     margin-left: 0.25em; // виртуальный пробел перед ривом
 
     @media (width < mediaVariables.$smallWidth) {
@@ -41,17 +43,6 @@ span:has(> canvas[data-rive]:not([data-static])) {
 
   &:not(:has(> canvas[data-showed])) {
     width: 0;
-
-    //animation-delay: $hideDelay;
-    //animation-duration: 0s;
-    //animation-fill-mode: forwards;
-    //animation-name: displayNone;
     transition-delay: $hideDelay;
   }
 }
-
-//@keyframes displayNone {
-//  to {
-//    display: none;
-//  }
-//}
