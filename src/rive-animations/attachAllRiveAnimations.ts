@@ -17,10 +17,7 @@ type SetCanvasRiveName = (
 ) => void;
 
 type RiveMap = Map<RiveName, RiveManager>;
-type AttachedRiveMap = Map<
-  RiveName,
-  Awaited<ReturnType<typeof attachRivAnimation>>
->;
+type AttachedRiveNames = Set<RiveName>;
 
 export function attachAllRiveAnimations(options: {
   canvases: NodeListOf<HTMLCanvasElement>;
@@ -31,7 +28,7 @@ export function attachAllRiveAnimations(options: {
   const { canvases, isStatic, getRiveName, setRiveName } = options;
 
   const riveMap: RiveMap = new Map();
-  const attachedRiveMap: AttachedRiveMap = new Map();
+  const attachedRiveNames: AttachedRiveNames = new Set();
 
   const rivCanvases = Array.from(canvases) as HTMLCanvasElement[];
 
@@ -46,7 +43,7 @@ export function attachAllRiveAnimations(options: {
     } else {
       const riveManager: RiveManager = createRiveManager({
         riveMap,
-        attachedRiveMap,
+        attachedRiveNames,
         setRiveName,
         canvas,
         riveName,
@@ -76,9 +73,9 @@ function createRiveManager(options: {
   canvas: HTMLCanvasElement;
   setRiveName: SetCanvasRiveName;
   riveMap: RiveMap;
-  attachedRiveMap: AttachedRiveMap;
+  attachedRiveNames: AttachedRiveNames;
 }) {
-  const { riveName, canvas, setRiveName, riveMap, attachedRiveMap } = options;
+  const { riveName, canvas, setRiveName, riveMap, attachedRiveNames } = options;
 
   const showingManager = {
     show: emptyFunction,
@@ -90,23 +87,22 @@ function createRiveManager(options: {
     show: () => showingManager.show(),
     hide: () => showingManager.hide(),
     attachIfNeeded: async () => {
-      if (attachedRiveMap.has(riveName)) {
+      if (attachedRiveNames.has(riveName)) {
         return;
       }
 
-      const rive = await attachRivAnimation(canvas, riveName);
-
-      const isNameAlreadyUsed = attachedRiveMap.has(riveName);
+      const isNameAlreadyUsed = attachedRiveNames.has(riveName);
       if (isNameAlreadyUsed) {
-        const usedNames = new Set(attachedRiveMap.keys());
-        const uniqueRiveName = makeUniqueName(usedNames, riveName);
+        const uniqueRiveName = makeUniqueName(attachedRiveNames, riveName);
         setRiveName(canvas, uniqueRiveName);
         riveMap.delete(riveName);
         riveMap.set(uniqueRiveName, riveManager);
-        attachedRiveMap.set(uniqueRiveName, rive);
+        attachedRiveNames.add(uniqueRiveName);
       } else {
-        attachedRiveMap.set(riveName, rive);
+        attachedRiveNames.add(riveName);
       }
+
+      const rive = await attachRivAnimation(canvas, riveName);
 
       showingManager.show = () => {
         const { riveInstance, playIconShowing } = rive;
