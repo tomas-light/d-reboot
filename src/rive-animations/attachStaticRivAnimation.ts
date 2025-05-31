@@ -9,15 +9,20 @@ export function attachStaticRivAnimation(
   canvas: HTMLCanvasElement,
   rivName: string
 ) {
+  const urlToFile = `${envJson.BASE_URL_TO_PUBLIC}static-rive-animations/${rivName}.riv`;
   const riveInstance = new Rive({
-    src: `${envJson.BASE_URL_TO_PUBLIC}static-rive-animations/${rivName}.riv`,
+    src: urlToFile,
     canvas,
     stateMachines: RIVE_ANIMATIONS_STATE_MACHINE_NAME,
     layout: new Layout({
-      fit: Fit.Fill,
+      fit: Fit.Contain,
       alignment: Alignment.Center,
     }),
     autoplay: true,
+    onLoad: () => {
+      // Prevent a blurry canvas by using the device pixel ratio
+      riveInstance.resizeDrawingSurfaceToCanvas();
+    },
   });
 
   resizeRiveOnWindowResize(riveInstance);

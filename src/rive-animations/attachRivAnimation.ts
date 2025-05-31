@@ -18,15 +18,15 @@ export function attachRivAnimation(canvas: HTMLCanvasElement, rivName: string) {
     playIconShowing: VoidFunction;
     playIconHiding: VoidFunction;
   }>((resolve) => {
+    const urlToFile = `${envJson.BASE_URL_TO_PUBLIC}rive-animations/${rivName}.riv`;
     const riveInstance = new Rive({
-      src: `${envJson.BASE_URL_TO_PUBLIC}rive-animations/${rivName}.riv`,
+      src: urlToFile,
       canvas,
       stateMachines: RIVE_ANIMATIONS_STATE_MACHINE_NAME,
       layout: new Layout({
-        fit: Fit.FitWidth, // Change to: rive.Fit.Contain, or Cover
+        fit: Fit.Contain, // Change to: rive.Fit.Contain, or Cover
         alignment: Alignment.Center,
       }),
-      // autoplay: true,
       onLoad: () => {
         // Prevent a blurry canvas by using the device pixel ratio
         riveInstance.resizeDrawingSurfaceToCanvas();

@@ -3,7 +3,7 @@
 $size: 60px;
 $sizeSM: 40px;
 
-span:has(> canvas[data-rive-name]) {
+span:has(> canvas[data-rive]:not([data-static])) {
   $width: var(--rive-width, $size);
   $widthSM: var(--rive-width-sm, $sizeSM);
   $hideDelay: var(--rive-hide-delay, 150ms);
@@ -30,7 +30,7 @@ span:has(> canvas[data-rive-name]) {
     }
   }
 
-  &:has(> canvas[data-rive-name][data-showed]) {
+  &:has(> canvas[data-showed]) {
     width: $width;
     margin-left: 0.25em; // виртуальный пробел перед ривом
 
@@ -39,7 +39,7 @@ span:has(> canvas[data-rive-name]) {
     }
   }
 
-  &:not(:has(> canvas[data-rive-name][data-showed])) {
+  &:not(:has(> canvas[data-showed])) {
     width: 0;
 
     //animation-delay: $hideDelay;

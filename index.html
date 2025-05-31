@@ -91,7 +91,7 @@
               --rive-width-sm: 128px;
               --rive-height-sm: 40px;
             "
-            ><canvas data-static-rive-name="leaders-icon"></canvas
+            ><canvas data-rive data-name="leaders-icon" data-static></canvas
           ></span>
         </p>
 
@@ -103,7 +103,7 @@
               --rive-width-sm: 113px;
               --rive-hide-delay: 300ms;
             "
-            ><canvas data-rive-name="people-icon"></canvas> </span
+            ><canvas data-rive data-name="people-icon"></canvas> </span
           ><span data-animated-characters>
             delivers custom digital solutions that make your technology
             infrastructure more efficient, reliable, and aligned with your
@@ -114,7 +114,7 @@
 
       <p data-animated-characters>
         <span>We implement AI-based solutions</span
-        ><span><canvas data-rive-name="ai-icon"></canvas></span>
+        ><span><canvas data-rive data-name="ai-icon"></canvas></span>
         <span
           >for automation, analytics, monitoring, diagnostics, and
           cybersecurity.</span
@@ -123,15 +123,15 @@
 
       <p>
         <span data-animated-characters>Our technologies reduce costs</span
-        ><span><canvas data-rive-name="down-icon"></canvas></span
+        ><span><canvas data-rive data-name="down-icon"></canvas></span
         ><span data-animated-characters>, boost productivity</span
-        ><span><canvas data-rive-name="up-icon"></canvas></span
+        ><span><canvas data-rive data-name="up-icon"></canvas></span
         ><span data-animated-characters>, protect your data</span
-        ><span><canvas data-rive-name="lock-icon"></canvas></span
+        ><span><canvas data-rive data-name="lock-icon"></canvas></span
         ><span data-animated-characters>, promote sustainability</span
-        ><span><canvas data-rive-name="eco-icon"></canvas></span>
+        ><span><canvas data-rive data-name="eco-icon"></canvas></span>
         <span data-animated-characters>and lower power usage</span
-        ><span><canvas data-rive-name="energy-icon"></canvas></span
+        ><span><canvas data-rive data-name="energy-icon"></canvas></span
         ><span data-animated-characters>.</span>
       </p>
 
@@ -150,7 +150,7 @@
           <span data-animated-horizontal-line></span>
         </a>
         <span>
-          <canvas data-rive-name="discuss-icon"></canvas>
+          <canvas data-rive data-name="discuss-icon"></canvas>
         </span>
       </p>
 
@@ -244,47 +244,45 @@
     <script type="module">
       import { splitAnimatedTextByWords } from './src/animate-words/splitAnimatedTextByWords.ts';
       import { attachAllRiveAnimations } from './src/rive-animations/attachAllRiveAnimations.ts';
-      import { attachStaticRivAnimation } from './src/rive-animations/attachStaticRivAnimation.ts';
       import { createScrollTriggerWithAnimations } from './src/scroll/createScrollTriggerWithAnimations.js';
 
       splitAnimatedTextByWords('[data-animated-characters]');
 
-      for (const canvas of document.querySelectorAll(
-        'canvas[data-static-rive-name]'
-      )) {
-        attachStaticRivAnimation(canvas, canvas.dataset.staticRiveName);
-      }
-
-      const riveMap = await attachAllRiveAnimations(
-        document.querySelectorAll('canvas[data-rive-name]')
-      );
+      const riveMap = attachAllRiveAnimations({
+        canvases: document.querySelectorAll('canvas[data-rive]'),
+        getRiveName: (canvas) => canvas.dataset.name,
+        setRiveName: (canvas, newRiveName) => {
+          canvas.dataset.name = newRiveName;
+        },
+        isStatic: (canvas) => canvas.dataset.static != null,
+      });
 
       await createScrollTriggerWithAnimations({
         elementsSelector:
-          '[data-animated-characters] .word, [data-animated-horizontal-line], canvas[data-rive-name], [data-last-element-to-scroll]',
+          '[data-animated-characters] .word, [data-animated-horizontal-line], canvas[data-rive]:not([data-static]), [data-last-element-to-scroll]',
         lastElementSelector: '[data-last-element-to-scroll]',
         changeState: {
           showElement: async (element) => {
             element.setAttribute('data-showed', '');
-          },
-          hideElement: async (element) => {
-            element.removeAttribute('data-showed');
-          },
-          showRive: (element) => {
-            element.setAttribute('data-showed', '');
 
-            const rive = riveMap.get(element.dataset.riveName);
-            if (rive) {
-              const { riveInstance, playIconShowing } = rive;
-              riveInstance.play(); // если анимация еще не была запущена
-              playIconShowing();
+            const { dataset } = element;
+            const riveName = dataset && dataset.rive != null && dataset.name;
+            if (riveName) {
+              const rive = riveMap.get(riveName);
+              if (rive) {
+                await rive.attachIfNeeded();
+                rive.show();
+              }
             }
           },
-          hideRive: async (element) => {
-            const rive = riveMap.get(element.dataset.riveName);
-            if (rive) {
-              const { playIconHiding } = rive;
-              playIconHiding();
+          hideElement: (element) => {
+            const { dataset } = element;
+            const riveName = dataset && dataset.rive != null && dataset.name;
+            if (riveName) {
+              const rive = riveMap.get(riveName);
+              if (rive) {
+                rive.hide();
+              }
             }
 
             element.removeAttribute('data-showed');

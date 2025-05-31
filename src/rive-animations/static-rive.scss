@@ -1,10 +1,10 @@
 @use '../mediaVariables';
 
-span:has(> canvas[data-static-rive-name]) {
+span:has(> canvas[data-rive][data-static]) {
   $height: var(--rive-height);
-  $heightSM: var(--rive-height-sm, $height);
+  $heightSM: var(--rive-height-sm);
   $width: var(--rive-width);
-  $widthSM: var(--rive-width-sm, $width);
+  $widthSM: var(--rive-width-sm);
 
   width: $width;
   height: $height;
