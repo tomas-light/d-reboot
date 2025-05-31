@@ -1,0 +1,29 @@
+@use '../mediaVariables';
+
+span:has(> canvas[data-static-rive-name]) {
+  $height: var(--rive-height);
+  $heightSM: var(--rive-height-sm, $height);
+  $width: var(--rive-width);
+  $widthSM: var(--rive-width-sm, $width);
+
+  width: $width;
+  height: $height;
+  display: inline-block;
+  vertical-align: bottom;
+
+  @media (width < mediaVariables.$smallWidth) {
+    width: $widthSM;
+    height: $heightSM;
+  }
+
+  canvas {
+    width: $width;
+    height: $height;
+    display: inline-block;
+
+    @media (width < mediaVariables.$smallWidth) {
+      width: $widthSM;
+      height: $heightSM;
+    }
+  }
+}

@@ -29,6 +29,7 @@
     <link href="/reset.css" rel="stylesheet" />
     <link href="/src/layout.scss" rel="stylesheet" />
     <link href="/src/flip-cards/v2/flippingCards.scss" rel="stylesheet" />
+    <link href="/src/rive-animations/static-rive.scss" rel="stylesheet" />
     <link href="/src/rive-animations/rive.scss" rel="stylesheet" />
     <link href="/src/copy-email/copy-email.scss" rel="stylesheet" />
     <link href="/src/animate-words/words.scss" rel="stylesheet" />
@@ -83,6 +84,15 @@
               <img src="/images/logos/solar.png" alt="solar" />
             </span>
           </span-->
+          <span
+            style="
+              --rive-width: 192px;
+              --rive-height: 60px;
+              --rive-width-sm: 128px;
+              --rive-height-sm: 40px;
+            "
+            ><canvas data-static-rive-name="leaders-icon"></canvas
+          ></span>
         </p>
 
         <p>
@@ -234,9 +244,16 @@
     <script type="module">
       import { splitAnimatedTextByWords } from './src/animate-words/splitAnimatedTextByWords.ts';
       import { attachAllRiveAnimations } from './src/rive-animations/attachAllRiveAnimations.ts';
+      import { attachStaticRivAnimation } from './src/rive-animations/attachStaticRivAnimation.ts';
       import { createScrollTriggerWithAnimations } from './src/scroll/createScrollTriggerWithAnimations.js';
 
       splitAnimatedTextByWords('[data-animated-characters]');
+
+      for (const canvas of document.querySelectorAll(
+        'canvas[data-static-rive-name]'
+      )) {
+        attachStaticRivAnimation(canvas, canvas.dataset.staticRiveName);
+      }
 
       const riveMap = await attachAllRiveAnimations(
         document.querySelectorAll('canvas[data-rive-name]')
