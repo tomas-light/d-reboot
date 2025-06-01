@@ -32,15 +32,15 @@ body {
   padding: 80px 20px 50px;
   color: #383838;
 
-  //@media (width > mediaVariables.$mediumWidth) {
-  //  .combined-paragraphs {
-  //    @include paragraphMargins;
-  //
-  //    p {
-  //      display: inline;
-  //    }
-  //  }
-  //}
+  @media (width > mediaVariables.$mediumWidth) {
+    .combined-paragraphs {
+      @include paragraphMargins;
+
+      p {
+        display: inline;
+      }
+    }
+  }
 
   @media (width < mediaVariables.$mediumWidth) {
     row-gap: 100px;
