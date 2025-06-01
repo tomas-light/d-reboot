@@ -19,12 +19,12 @@
   left: 0;
   width: 0;
   height: 4px;
-  background-color: black;
-  transition: width linear 150ms;
+  background-color: #383838;
+  transition: width linear 120ms;
 
   &[data-showed] {
     width: calc(
-      100% - 10px
+      100% - 8px
     ); // корректируем длину линии, потому что иначе она как бы длиннее, чем текст в этом месте
   }
 }
