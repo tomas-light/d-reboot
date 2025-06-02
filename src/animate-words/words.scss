@@ -1,3 +1,5 @@
+@use '../mediaVariables';
+
 [data-animated-characters] {
   .word {
     opacity: 0.25;
@@ -26,5 +28,9 @@
     width: calc(
       100% - 10px
     ); // корректируем длину линии, потому что иначе она как бы длиннее, чем текст в этом месте
+  }
+
+  @media (width < mediaVariables.$smallWidth) {
+    height: 3px;
   }
 }
