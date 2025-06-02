@@ -18,7 +18,7 @@
 [data-animated-horizontal-line] {
   position: absolute;
   bottom: -6px;
-  left: 0;
+  left: 3px;
   width: 0;
   height: 4px;
   background-color: #383838;
@@ -26,11 +26,18 @@
 
   &[data-showed] {
     width: calc(
-      100% - 8px
+      100% - 14px
     ); // корректируем длину линии, потому что иначе она как бы длиннее, чем текст в этом месте
   }
 
   @media (width < mediaVariables.$smallWidth) {
+    left: 2px;
     height: 3px;
+    
+    &[data-showed] {
+      width: calc(
+        100% - 11px
+      );
+    }
   }
 }
