@@ -26,7 +26,7 @@ body {
 body {
   display: grid;
   grid-template-areas: 'header' 'main' 'footer';
-  row-gap: 200px;
+  row-gap: 180px;
   align-items: center;
   justify-content: center;
   padding: 80px 20px 50px;
@@ -44,12 +44,12 @@ body {
   }
 
   @media (width < mediaVariables.$mediumWidth) {
-    row-gap: 100px;
-    padding: 100px 20px 50px;
+    row-gap: 160px;
+    padding: 60px 60px;
   }
 
   @media (width < mediaVariables.$smallWidth) {
-    row-gap: 100px;
+    row-gap: 130px;
     padding: 40px 30px;
   }
 
