@@ -1,0 +1,36 @@
+@use './mediaVariables';
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: #383838;
+  color: #fff;
+}
+
+::selection {
+  background: #383838;
+  color: #fff;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  color: #383838;
+  cursor: default;
+
+  > main {
+    width: 100%;
+    text-align: center;
+
+    p {
+      font-size: 40px;
+      font-weight: 500;
+      line-height: 64px;
+    }
+  }
+}

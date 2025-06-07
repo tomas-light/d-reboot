@@ -9,6 +9,12 @@ export const paths = {
   get env() {
     return path.join(this.__dirname, 'src', 'env.json');
   },
+  get index() {
+    return path.join(this.__dirname, 'index.html');
+  },
+  get 404() {
+    return path.join(this.__dirname, '404.html');
+  },
 };
 
 export default defineConfig(async (): Promise<UserConfig> => {
@@ -37,6 +43,12 @@ export default defineConfig(async (): Promise<UserConfig> => {
     },
     build: {
       target: 'esnext',
+      rollupOptions: {
+        input: {
+          main: paths.index,
+          notFound: paths['404'],
+        },
+      },
     },
   };
 });

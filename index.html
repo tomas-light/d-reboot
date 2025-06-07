@@ -149,98 +149,10 @@
 
     <script type="module">
       import { splitAnimatedTextByWords } from './src/animate-words/splitAnimatedTextByWords.ts';
-      import { attachAllRiveAnimations } from './src/rive-animations/attachAllRiveAnimations.ts';
-      import { createScrollTriggerWithAnimations } from './src/scroll/createScrollTriggerWithAnimations.js';
+      import { initRivesOnPage } from './src/rive-animations/initRivesOnPage.js';
 
       splitAnimatedTextByWords('[data-animated-characters]');
-
-      const riveMap = attachAllRiveAnimations({
-        canvases: document.querySelectorAll('canvas[data-rive]'),
-        getRiveName: (canvas) => canvas.dataset.name,
-        setRiveName: (canvas, newRiveName) => {
-          canvas.dataset.name = newRiveName;
-        },
-        isStatic: (canvas) => canvas.dataset.static != null,
-      });
-
-      const riveTimersMap = new Map();
-      function addTimer(riveName, callback, showDelayMs) {
-        const timer = setTimeout(() => {
-          callback();
-        }, showDelayMs);
-
-        riveTimersMap.set(riveName, timer);
-      }
-      function removeTimer(riveName) {
-        const timer = riveTimersMap.get(riveName);
-        if (timer) {
-          clearTimeout(timer);
-          riveTimersMap.delete(riveName);
-        }
-      }
-
-      await createScrollTriggerWithAnimations({
-        elementsSelector:
-          '[data-animated-characters] .word, [data-animated-horizontal-line], canvas[data-rive]:not([data-static]), [data-last-element-to-scroll]',
-        lastElementSelector: '[data-last-element-to-scroll]',
-        changeState: {
-          showElement: async (element) => {
-            element.setAttribute('data-showed', '');
-
-            const { dataset } = element;
-            const riveName = dataset && dataset.rive != null && dataset.name;
-            const showDelayMs = dataset && dataset.showDelayMs;
-
-            if (riveName) {
-              const rive = riveMap.get(riveName);
-              if (rive) {
-                removeTimer(riveName);
-                await rive.attachIfNeeded();
-
-                if (showDelayMs) {
-                  addTimer(
-                    riveName,
-                    () => {
-                      rive.show();
-                    },
-                    showDelayMs
-                  );
-                } else {
-                  rive.show();
-                }
-              }
-            }
-          },
-          hideElement: (element) => {
-            const { dataset } = element;
-            const riveName = dataset && dataset.rive != null && dataset.name;
-            const hideDelayMs = dataset && dataset.hideDelayMs;
-
-            if (!riveName) {
-              element.removeAttribute('data-showed');
-              return;
-            }
-
-            const rive = riveMap.get(riveName);
-            if (rive) {
-              removeTimer(riveName);
-              rive.hide();
-
-              if (hideDelayMs) {
-                addTimer(
-                  riveName,
-                  () => {
-                    element.removeAttribute('data-showed');
-                  },
-                  hideDelayMs
-                );
-              } else {
-                element.removeAttribute('data-showed');
-              }
-            }
-          },
-        },
-      });
+      await initRivesOnPage();
     </script>
   </body>
 </html>

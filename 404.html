@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      rel="icon"
+      type="image/png"
+      href="/favicon/favicon-96x96.png"
+      sizes="96x96"
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/favicon/apple-touch-icon.png"
+    />
+    <meta name="apple-mobile-web-app-title" content="Byte" />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+
+    <title>Byte Technologies</title>
+    <meta name="description" content="" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+
+    <link href="/fonts/fonts.css" rel="stylesheet" />
+    <link href="/reset.css" rel="stylesheet" />
+    <link href="./src/404.scss" rel="stylesheet" />
+    <link href="/src/rive-animations/static-rive.scss" rel="stylesheet" />
+  </head>
+
+  <body>
+    <main>
+      <span
+        style="
+          --rive-width: 60px;
+          --rive-height: 60px;
+          --rive-width-sm: 40px;
+          --rive-height-sm: 40px;
+        "
+        ><canvas data-rive data-name="ghost-icon" data-static></canvas
+      ></span>
+      <p>
+        Ooops... The page you are looking for <br />
+        cannot be found.
+      </p>
+
+      <span data-last-element-to-scroll></span>
+    </main>
+
+    <script type="module">
+      import { initRivesOnPage } from './src/rive-animations/initRivesOnPage.js';
+      await initRivesOnPage();
+    </script>
+  </body>
+</html>
