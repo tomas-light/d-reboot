@@ -33,15 +33,14 @@ body {
   color: #383838;
   cursor: default;
 
-  @media (width > mediaVariables.$mediumWidth) {
-    .combined-paragraphs {
-      @include paragraphMargins;
-
-      p {
-        display: inline;
-      }
-    }
-  }
+  //@media (width > mediaVariables.$mediumWidth) {
+  //  .combined-paragraphs {
+  //    @include paragraphMargins;
+  //    p {
+  //      display: inline;
+  //    }
+  //  }
+  //}
 
   @media (width < mediaVariables.$mediumWidth) {
     row-gap: 160px;
