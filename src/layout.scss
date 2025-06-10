@@ -2,7 +2,10 @@
 
 @mixin paragraphMargins {
   margin-top: 0;
-  margin-bottom: 64px;
+  margin-bottom: 80px;
+    @media (width < mediaVariables.$smallWidth) {
+      margin-bottom: 70px;
+  }
 }
 
 html,
@@ -95,7 +98,7 @@ body {
       opacity: .35;
       font-size: 16px;
       font-weight: 400;
-      line-height: 24px;
+      line-height: 1.6;
     }
     .last {
       margin-bottom: 0px;
